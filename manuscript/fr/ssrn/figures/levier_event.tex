@@ -1,0 +1,30 @@
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[paperaxis,
+      xlabel={Année}, ylabel={Écart France moins comparables (levier)},
+      xtick={2013,2014,2015,2016,2017,2018,2019,2020,2021,2022},
+      xticklabel style={/pgf/number format/1000 sep=, rotate=45, anchor=east},
+    ]
+      \draw[zeroline, line width=0.6pt] (axis cs:2012.5,0) -- (axis cs:2022.5,0);
+      % La France, en bleu, avec intervalle a 95 pour cent.
+      \addplot[franceblue, mark=*, mark options={scale=0.8}, error bars/.cd,
+        y dir=both, y explicit, error bar style={franceblue}]
+        table[col sep=comma, x=year, y=coef, y error expr=1.96*\thisrow{std_error}]
+        {figures/levier_event.csv};
+      % Reforme de 2018 : marqueur vert, la couleur de la baisse d'impot.
+      \draw[baisse2018, dashed, line width=1pt]
+        ({axis cs:2017.5,0}|-{rel axis cs:0,0}) -- ({axis cs:2017.5,0}|-{rel axis cs:0,1});
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Étude d'événement du levier autour de la réforme de 2018}
+  \label{fig:levier}
+  \fignote{Coefficients $\tau_j$ de l'équation~\eqref{eq:event} pour le levier, total des dettes sur
+  total de l'actif, écart de la France aux cinq pays comparables l'année $j$, année de référence 2017 omise.
+  Barres d'erreur à quatre-vingt-quinze pour cent sur l'erreur-type regroupée par pays, indicative.
+  La ligne verte verticale marque la réforme de 2018. Le levier français, un peu supérieur en début
+  de période, reflue vers celui des pays comparables et ne remonte pas après la réforme. Ce levier
+  agrège l'ensemble des dettes ; la hausse de la dette financière garantie pendant la crise
+  sanitaire, logée en trésorerie, n'y apparaît pas et est caractérisée à la
+  section~\ref{sec:robustesse}.}
+\end{figure}

@@ -1,0 +1,57 @@
+\section{Données et construction des variables}\label{sec:donnees}
+
+Les sociétés privées proviennent d'Orbis, base de données du vendeur Bureau van Dijk, consultée via
+Wharton Research Data Services, pour les comptes annuels de 2013 à 2022, étendus à 2010 pour
+l'analyse des deux chocs. Les sociétés cotées proviennent de Compustat Global, du vendeur
+S\&P Global Market Intelligence, même période et même accès. Le cadrage au niveau des ménages
+provient des comptes de secteur et des comptes financiers d'Eurostat, vendeur Office statistique de
+l'Union européenne, en accès ouvert.
+
+L'échantillon de sociétés privées retient la France et cinq contrôles comparables : l'Allemagne,
+l'Italie, l'Espagne, la Belgique et les Pays-Bas. Une société entre dans le panel équilibré si elle
+déclare un capital social au moins 6 années sur la fenêtre. Une observation par société et par année
+est conservée, le dépôt au plus grand total de bilan en cas de doublon. Le panel principal compte
+16\,177\,643 années-sociétés portées par 2\,138\,541 sociétés. Les variables continues sont
+winsorisées aux 1\textsuperscript{er} et 99\textsuperscript{e} centiles. L'échantillon coté compte
+24\,686 années-sociétés sur les sociétés cotées des six pays.
+
+La variable expliquée de l'hypothèse H1 est la \textit{variation du capital}, notée $g_{it}$ pour la
+société $i$ l'année $t$, variation annuelle du logarithme du capital souscrit et libéré $K_{it}$,
+\begin{equation}\label{eq:var-capital}
+  g_{it} = \ln(1 + K_{it}) - \ln(1 + K_{i,t-1}).
+\end{equation}
+Nous lui adjoignons la \textit{hausse du capital}, indicatrice $a_{it}$ valant un si le capital
+souscrit a augmenté d'une année sur l'autre et zéro sinon. Pour l'hypothèse H2, le \textit{levier}
+$\ell_{it}$ est le total des dettes $L_{it}$ rapporté au total de l'actif $A_{it}$,
+\begin{equation}\label{eq:levier}
+  \ell_{it} = L_{it} / A_{it},
+\end{equation}
+la \textit{croissance de la dette} est la variation du logarithme de la dette financière, dette à
+long terme plus emprunts courants, et l'\textit{investissement} est la variation du logarithme des
+immobilisations corporelles. Pour la source des fonds et pour l'hypothèse H3, les \textit{réserves
+sur actif} $r_{it}$ sont les capitaux propres moins le capital souscrit, rapportés au total de
+l'actif,
+\begin{equation}\label{eq:reserves}
+  r_{it} = (E_{it} - K_{it}) / A_{it},
+\end{equation}
+où $E_{it}$ est le total des capitaux propres, et le \textit{ratio de fonds propres} $e_{it}$ est
+\begin{equation}\label{eq:fonds-propres}
+  e_{it} = E_{it} / A_{it}.
+\end{equation}
+Au niveau coté, l'\textit{émission de capital} est la trésorerie levée par vente d'actions rapportée
+à l'actif. Au niveau des ménages, la \textit{distribution} $Y_{ct}$ est le logarithme des dividendes
+distribués reçus par les ménages du pays $c$ l'année $t$.
+
+Le modèle ne retient qu'une variable de contrôle au niveau de la société, la \textit{taille}
+$s_{it}$, logarithme du total de l'actif,
+\begin{equation}\label{eq:taille}
+  s_{it} = \ln(1 + A_{it}).
+\end{equation}
+Les effets fixes sont de deux ordres : un effet fixe de société $\alpha_i$, qui absorbe toute
+différence de niveau stable entre sociétés, et un effet fixe d'année $\gamma_t$, qui absorbe tout
+choc annuel commun aux six pays. L'âge de la société n'est pas introduit comme contrôle : étant la
+différence exacte entre l'année courante et l'année de constitution, il est déjà absorbé par la
+combinaison des effets fixes de société et d'année. Les erreurs sont regroupées au niveau du pays,
+l'unité à laquelle le traitement est affecté. Les définitions complètes, les champs source et les
+formules figurent dans la table~\ref{table:definitions-variables} en annexe, que la
+table~\ref{table:stats-descriptives} des statistiques descriptives accompagne.

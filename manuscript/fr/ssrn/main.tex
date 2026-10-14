@@ -1,0 +1,102 @@
+\documentclass[11pt]{article}
+
+% ---- Encodage et langue ----
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+
+% ---- Mise en page ----
+\usepackage[a4paper,margin=2.5cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{microtype}
+\usepackage{parskip}
+
+% ---- Mathematiques ----
+\usepackage{amsmath,amssymb}
+
+% ---- Tableaux (house style) ----
+\usepackage{tabularray}
+\UseTblrLibrary{booktabs}
+\usepackage{booktabs}
+\usepackage{pdflscape}
+\usepackage{float}
+\usepackage{caption}
+\captionsetup{labelsep=period}
+
+% ---- Figures natives pgfplots ----
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.18}
+\usepgfplotslibrary{groupplots}
+\usepackage{graphicx}
+
+% ---- References croisees ----
+\usepackage{hyperref}
+\hypersetup{colorlinks=true,linkcolor=black,citecolor=black,urlcolor=blue!50!black}
+\usepackage{cleveref}
+\usepackage[round]{natbib}
+\bibliographystyle{plainnat}
+
+% ===================================================================
+%  PALETTE GRAPHIQUE : sens fixe d'une couleur, tenu dans tout le papier.
+%    franceblue   : la France, le pays traite, partout.
+%    controlgrey  : les pays de comparaison et les placebos, partout.
+%    hausse2013   : le choc de hausse d'impot de 2013.
+%    baisse2018   : le choc de baisse d'impot de 2018, le prelevement forfaitaire unique.
+%  Les deux chocs gardent leur couleur sur toutes les figures ou ils apparaissent.
+% ===================================================================
+\usepackage{xcolor}
+\definecolor{franceblue}{RGB}{31,78,120}
+\definecolor{controlgrey}{RGB}{140,140,140}
+\definecolor{hausse2013}{RGB}{192,86,33}
+\definecolor{baisse2018}{RGB}{33,122,101}
+\definecolor{zeroline}{RGB}{110,110,110}
+
+% Style d'axe commun a toutes les figures.
+\pgfplotsset{
+  paperaxis/.style={
+    width=12cm, height=7.2cm,
+    axis lines=left,
+    tick align=outside,
+    tick style={black},
+    label style={font=\small},
+    tick label style={font=\footnotesize},
+    legend style={font=\footnotesize, draw=none, fill=none},
+    every axis plot/.append style={line width=0.9pt},
+    grid=none,
+  },
+}
+
+% ---- Note de tableau et de figure sous la legende ----
+\newcommand{\tablenotes}[1]{\par\vspace{3pt}{\footnotesize\textit{Notes.} #1}}
+\newcommand{\fignote}[1]{\par\vspace{2pt}\begin{minipage}{0.92\linewidth}{\footnotesize\textit{Notes.} #1}\end{minipage}}
+
+% ---- Separateur de milliers a la francaise dans le texte ----
+\frenchspacing
+
+\title{\textbf{Après la flat tax : le capital sort plus vite qu'il ne rentre}}
+\author{Geoffrey Ducournau\thanks{Contact : \texttt{G.ducournau.voisin@gmail.com}.}}
+\date{Octobre 2026}
+
+\begin{document}
+\maketitle
+
+\input{sections/00_abstract}
+
+\clearpage
+\input{sections/01_introduction}
+\input{sections/02_cadre}
+\input{sections/03_donnees}
+\input{sections/04_modele}
+\input{sections/05_resultats}
+\input{sections/06_robustesse}
+\input{sections/07_conclusion}
+
+\clearpage
+\bibliography{references}
+
+\clearpage
+\input{sections/08_annexe}
+
+\end{document}

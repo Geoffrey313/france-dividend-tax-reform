@@ -1,0 +1,35 @@
+\begin{figure}[H]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[paperaxis,
+      xlabel={Année}, ylabel={Écart France moins comparables (part de l'actif)},
+      xtick={2013,2014,2015,2016,2017,2018,2019,2020,2021,2022},
+      xticklabel style={/pgf/number format/1000 sep=, rotate=45, anchor=east},
+      legend pos=north west, legend cell align=left,
+    ]
+      \draw[zeroline, line width=0.6pt] (axis cs:2013,0) -- (axis cs:2022,0);
+      % Deux positions de bilan de la France, toutes deux en bleu ; le style de trait distingue.
+      \addplot[franceblue, line width=1.3pt, mark=*, mark options={scale=0.7}]
+        table[col sep=comma, x=year, y=coef] {figures/cash_event.csv};
+      \addlegendentry{Trésorerie sur actif}
+      \addplot[franceblue, line width=1.3pt, densely dashed, mark=square*, mark options={scale=0.6}]
+        table[col sep=comma, x=year, y=coef] {figures/fin_debt_event.csv};
+      \addlegendentry{Dette financière sur actif}
+      % Reforme de 2018 en vert ; entree dans la crise sanitaire en gris.
+      \draw[baisse2018, dashed, line width=1pt]
+        ({axis cs:2017.5,0}|-{rel axis cs:0,0}) -- ({axis cs:2017.5,0}|-{rel axis cs:0,1});
+      \draw[controlgrey, dashed, line width=1pt]
+        ({axis cs:2019.5,0}|-{rel axis cs:0,0}) -- ({axis cs:2019.5,0}|-{rel axis cs:0,1});
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Trésorerie et dette financière des sociétés françaises, écart aux pays comparables, autour de la crise sanitaire}
+  \label{fig:covid-pge}
+  \fignote{Coefficients $\tau_j$ de l'équation~\eqref{eq:event} pour la trésorerie sur actif et pour
+  la dette financière, dette à long terme plus emprunts courants, sur actif, écart de la France aux
+  cinq pays comparables l'année $j$, année de référence 2017 omise. Les deux séries sont en bleu, la
+  couleur de la France dans tout le papier ; le trait plein est la trésorerie, le trait tireté la
+  dette financière. La ligne verte verticale marque la réforme de 2018, la ligne grise l'entrée dans
+  la crise sanitaire fin 2019. Les deux séries sont plates jusqu'en 2019 puis bondissent conjointement
+  en 2020, 2021 et 2022, la signature des prêts garantis par l'État. Il s'agit d'une corrélation
+  descriptive, non d'une preuve que la dette a financé la distribution.}
+\end{figure}

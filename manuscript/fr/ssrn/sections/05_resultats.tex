@@ -1,0 +1,230 @@
+\section{Résultats}\label{sec:resultats}
+
+\subsection{La baisse d'impôt ne fait entrer aucun capital neuf}
+
+Le tableau~\ref{table:h1-capital} rapporte l'effet de la réforme de 2018 sur trois marges de
+l'entrée de capital : la variation du capital souscrit en colonne~(1), la probabilité d'une hausse
+du capital en colonne~(2) et le ratio de fonds propres en colonne~(3). Sur la première marge, le
+coefficient de double différence vaut $-0{,}0034$, une grandeur économiquement nulle : rapportée au
+niveau, elle signifie que le capital souscrit des sociétés françaises croît environ $0{,}34\%$ moins
+vite que celui des pays comparables chaque année, un écart négligeable et de signe contraire à l'entrée de
+capital qu'une baisse d'impôt attractive était censée provoquer.\footnote{$-0{,}0034$ est un
+coefficient en quasi-logarithme, soit un écart de taux de croissance annuel d'environ
+$-0{,}34\%$.} La permutation placebo place même la France au plus faible écart des six pays, avec
+une valeur $p$ de $1{,}000$, c'est-à-dire que cinq pays non traités affichent un écart plus marqué
+que le pays réformé. La probabilité d'une hausse du capital recule elle aussi très légèrement,
+$-0{,}0049$, et le ratio de fonds propres, en colonne~(3), bouge de $+0{,}0474$ mais sans aucune
+précision, la statistique de Student valant $+0{,}9$ et le placebo plaçant la France au deuxième rang
+seulement. L'étude d'événement de la figure~\ref{fig:entree} confirme cette lecture : la trajectoire
+de l'écart France contre les pays comparables est plate année après année avant 2018 et ne connaît aucune rupture
+ensuite, les barres d'erreur couvrant zéro sur toute la fenêtre. L'hypothèse H1 est soutenue : la
+baisse d'impôt ne fait pas entrer de capital neuf dans les fonds propres. Ce résultat n'est pas une
+incertitude mais un nul estimé avec précision, cohérent avec la neutralité de
+l'équation~\eqref{eq:neutralite} et avec l'absence d'effet réel documentée par \citet{yagan2015}
+sur la baisse américaine de 2003.
+
+\input{figures/entree_capital}
+
+{
+\begin{table}[ht]
+    \centering
+    \caption{Entrée de capital après la réforme de 2018}\label{table:h1-capital}
+    \tablenotes{Double différence de l'équation~\eqref{eq:did}, France contre les cinq pays comparables,
+    effets fixes de société et d'année, contrôle de taille, période 2013 à 2022. La ligne
+    \textit{France $\times$ après 2018} donne le coefficient $\beta$ ; la statistique de Student
+    regroupée par pays est entre parenthèses. Les étoiles marquent la significativité d'après la
+    valeur $p$ bilatérale associée à cette statistique : *** pour $p < 0{,}001$, ** pour
+    $p < 0{,}01$, * pour $p < 0{,}05$. Le nombre de groupes étant de six, ces étoiles et la
+    statistique de Student sont indicatives ; l'inférence du papier repose sur l'effet du contrôle synthétique et sur la
+    valeur $p$ de permutation placebo, dont le plancher mécanique est $1/6 \approx 0{,}167$ ; une
+    valeur de $1{,}000$ signifie que la France a l'écart le plus faible des six pays. Les variables
+    continues sont winsorisées aux 1\textsuperscript{er} et 99\textsuperscript{e} centiles. Le ratio
+    de fonds propres est calculé sur les années-sociétés à actif strictement positif. Les définitions
+    sont dans la table~\ref{table:definitions-variables}.\\}
+    \footnotesize
+    \begin{tblr}{colspec={l*{3}{X[1,c]}}}
+    \toprule
+     & (1) & (2) & (3) \\
+    Variables expliquées : & Variation du capital & Hausse du capital & Ratio de fonds propres \\
+    \midrule
+    France $\times$ après 2018 & $-0{,}0034^{***}$ & $-0{,}0049^{***}$ & $+0{,}0474$ \\
+                               & $(-9{,}9)$  & $(-5{,}2)$  & $(+0{,}9)$  \\
+     & & & \\
+    Effet synthétique & $+0{,}0012$ & $-0{,}0059$ & $-0{,}0160$ \\
+    Placebo $p$       & $1{,}000$   & $1{,}000$   & $0{,}833$   \\
+     & & & \\
+    Effets fixes société & Oui & Oui & Oui \\
+    Effets fixes année   & Oui & Oui & Oui \\
+    Contrôle de taille   & Oui & Oui & Oui \\
+    Regroupement         & Pays & Pays & Pays \\
+    Observations         & 16\,177\,643 & 16\,177\,643 & 16\,177\,643 \\
+    \bottomrule
+    \end{tblr}
+\end{table}
+}
+
+\subsection{Absence de substitution par la dette et d'effet réel}
+
+Le tableau~\ref{table:h2-substitution} rassemble les quatre marges de l'hypothèse de substitution :
+le levier en colonne~(1), la croissance de la dette en colonne~(2), l'investissement en colonne~(3)
+et la productivité du travail en colonne~(4). Aucune ne montre d'effet dans le sens attendu, et
+aucune statistique de Student ne dépasse le seuil usuel. Le résultat le plus informatif tient à la
+complémentarité comptable du financement : la part des fonds propres et la part des dettes dans le
+bilan somment à l'unité, de sorte que le coefficient sur le levier, $-0{,}0472$, et celui sur le
+ratio de fonds propres du tableau précédent, $+0{,}0474$, sont la même grandeur au signe près. S'il
+y avait substitution, le point de fonds propres perdu se retrouverait en dette ; or les deux
+coefficients sont nuls et imprécis, le placebo du levier plaçant la France au deuxième rang. Pour un
+point de part de fonds propres en moins, on ne mesure donc pas un point de dette en plus, mais zéro.
+L'investissement, en colonne~(3), affiche $+0{,}0683$ mais avec une statistique de $+1{,}5$ qui ne
+franchit aucun seuil, et la productivité ne bouge pas. L'hypothèse H2 n'est pas soutenue au sens où
+la substitution prédite par les anciennes vues n'apparaît pas ; conformément à
+l'équation~\eqref{eq:neutralite}, les sociétés n'ont pas eu à remplacer des fonds distribués, faute
+d'un surcroît d'investissement à financer. Cette absence d'effet réel prolonge le constat de
+\citet{alstadsater2017} et de \citet{becker2013}, pour qui la fiscalité des versements déplace
+l'allocation du capital sans en relever le niveau productif.
+
+L'étude d'événement de la figure~\ref{fig:levier} confirme ce nul dans le temps. L'écart de levier
+entre la France et ses pays comparables, un peu positif en début de période, reflue vers zéro avant
+la réforme et ne remonte pas après 2018 ; il devient même légèrement négatif. Ce levier agrège
+l'ensemble des dettes au bilan, et son absence de hausse signe l'absence de la substitution de la
+dette aux fonds propres prédite par les anciennes vues. La dette financière garantie souscrite
+pendant la crise sanitaire fait exception et monte en 2020 à 2022, mais elle est logée en trésorerie
+plutôt que convertie en distribution ; ce mouvement est propre au Covid, non à la réforme, et nous
+le caractérisons à la section~\ref{sec:robustesse}.
+
+\input{figures/levier_event}
+
+{
+\begin{table}[ht]
+    \centering
+    \caption{Substitution par la dette et effets réels après 2018}\label{table:h2-substitution}
+    \tablenotes{Double différence de l'équation~\eqref{eq:did}, mêmes spécification, période et
+    conventions d'inférence que le tableau~\ref{table:h1-capital}. La statistique de Student
+    regroupée par pays est entre parenthèses ; les étoiles marquent la significativité d'après la
+    valeur $p$ bilatérale, *** pour $p < 0{,}001$, ** pour $p < 0{,}01$, * pour $p < 0{,}05$, et
+    sont indicatives vu les six groupes. L'inférence repose sur l'effet synthétique et la valeur $p$
+    de permutation placebo. Les définitions sont dans la table~\ref{table:definitions-variables}.\\}
+    \footnotesize
+    \begin{tblr}{colspec={l*{4}{X[1,c]}}}
+    \toprule
+     & (1) & (2) & (3) & (4) \\
+    Variables expliquées : & Levier & Croissance dette & Investissement & Productivité \\
+    \midrule
+    France $\times$ après 2018 & $-0{,}0472$ & $+0{,}0302$ & $+0{,}0683$ & $+0{,}0049$ \\
+                               & $(-0{,}9)$  & $(+0{,}2)$  & $(+1{,}5)$  & $(+0{,}4)$  \\
+     & & & & \\
+    Effet synthétique & $+0{,}0165$ & $+0{,}1763$ & $+0{,}0082$ & $-0{,}0896$ \\
+    Placebo $p$       & $0{,}833$   & $0{,}333$   & $0{,}667$   & $0{,}500$   \\
+     & & & & \\
+    Effets fixes société & Oui & Oui & Oui & Oui \\
+    Effets fixes année   & Oui & Oui & Oui & Oui \\
+    Contrôle de taille   & Oui & Oui & Oui & Oui \\
+    Regroupement         & Pays & Pays & Pays & Pays \\
+    \bottomrule
+    \end{tblr}
+\end{table}
+}
+
+\subsection{La destination des fonds libérés : les ménages}
+
+L'argent que la réforme ne dirige pas vers le capital des sociétés sort vers les ménages. Les
+comptes nationaux montrent que les dividendes reçus par les ménages français augmentent de 32 \%
+l'année même de la réforme, passant de 32\,592 à 43\,088 millions d'euros courants entre 2017 et
+2018.\footnote{$43\,088 / 32\,592 - 1 = 0{,}322$ ; dividendes distribués reçus par les ménages
+français, millions d'euros courants, 2017 et 2018, Eurostat.} La figure~\ref{fig:dividendes} place
+la France parmi ses cinq pays comparables en indice base 100 en 2017 et isole nettement la rupture française :
+l'indice français saute à 132 en 2018 quand la plus forte hausse parmi les pays comparables, celle des Pays-Bas,
+atteint 114, de sorte que la France est le seul pays à rompre franchement l'année de sa réforme.
+L'ampleur de ce saut, 32 points d'indice contre au plus 14 chez les pays comparables, mesure directement la
+part des fonds qui sort du périmètre des sociétés. Du côté de l'emploi de ces fonds, les comptes
+financiers des ménages montrent que le surcroît se loge en dépôts et en achats d'actions cotées sur
+le marché secondaire, non en actions non cotées, c'est-à-dire non dans le capital des sociétés
+privées, et l'indice des prix du logement français progresse moins que celui des pays comparables, ce qui ne
+soutient pas un canal immobilier. L'argent reste donc dans l'épargne liquide et le portefeuille des
+ménages ; il ne finance pas l'appareil productif, exactement l'écart entre réponse de la
+distribution et réponse réelle que \citet{chetty2005} et \citet{yagan2015} relèvent sur la réforme
+américaine de 2003.
+
+Le contraste entre les deux versants du résultat se résume en une phrase. La
+figure~\ref{fig:entree} ne montre aucune entrée de capital neuf dans les fonds propres des sociétés
+françaises après la réforme de 2018, et le tableau~\ref{table:h2-substitution} aucun surcroît
+d'investissement ni de dette ; la figure~\ref{fig:dividendes} montre au contraire une forte sortie
+de dividendes vers les ménages, de 32 \% la seule année de la réforme. Autrement dit, après la
+baisse d'impôt, rien n'entre dans le capital des entreprises et rien ne s'y investit, tandis qu'une
+large part en sort vers les ménages. La baisse d'impôt n'a donc pas financé les entreprises ; elle a
+alimenté la distribution.
+
+\subsection{Une réponse asymétrique à la hausse et à la baisse d'impôt}
+
+Nous plaçons enfin la hausse d'impôt de 2013 et la baisse de 2018 dans le même cadre afin de mesurer
+l'asymétrie annoncée par l'équation~\eqref{eq:ajustement}. Sur la distribution, mesurée au niveau
+agrégé des ménages, la semi-élasticité au choc de 2013 est fortement négative et celle au choc de
+2018 positive mais plus petite. Sur une base lissée des trois années antérieures à chaque choc, qui
+neutralise le report des versements d'une année isolée, la semi-élasticité vaut $-0{,}40$ pour la
+hausse de 2013 et $+0{,}18$ pour la baisse de 2018 : la baisse ne défait donc que 45 \% de l'effet
+de la hausse, un peu moins de la moitié.\footnote{$0{,}18 / 0{,}40 = 0{,}45$ ; semi-élasticités sur
+base lissée des trois années antérieures, chocs de 2018 et de 2013.} Ce rapport ne tient pas au
+choix de la fenêtre de référence : mesurée sur le flux brut d'une année sur l'autre, la
+semi-élasticité vaut $-0{,}52$ en 2013 et $+0{,}23$ en 2018, soit le même rapport de 45
+\%.\footnote{$0{,}23 / 0{,}52 = 0{,}45$ ; semi-élasticités sur le flux brut de l'année du choc, 2018
+et 2013.}
+
+Sur l'allocation du capital au niveau des sociétés privées, le tableau~\ref{table:h3-cliquet} montre
+le même sens et chiffre l'asymétrie. La hausse de 2013 a réalloué du capital vers les bénéfices
+retenus : la part des réserves dans l'actif monte de $+0{,}0942$ et la part des fonds propres de
+$+0{,}1094$, l'une et l'autre nettement, avec des statistiques de Student de $+2{,}2$ et $+2{,}6$. La
+baisse de 2018 ne ramène ces mêmes parts que de $+0{,}0332$ et $+0{,}0403$, des grandeurs trois fois
+plus faibles et sans précision. La baisse ne défait donc qu'environ un tiers de la réallocation
+opérée par la hausse, le capital retenu revenant dans un rapport de $1$ à $2{,}8$ sur les réserves et
+de $1$ à $2{,}7$ sur les fonds propres.\footnote{$0{,}0942 / 0{,}0332 = 2{,}84$ pour la rétention,
+$0{,}1094 / 0{,}0403 = 2{,}71$ pour les fonds propres ; coefficients de double différence aux chocs
+de 2013 et de 2018.} La figure~\ref{fig:cliquet} résume cette asymétrie sur les trois marges, la
+distribution, les réserves et les fonds propres, en portant côte à côte l'ampleur de chaque réponse :
+la barre de la hausse de 2013 dépasse celle de la baisse de 2018 sur chacune. L'hypothèse H3 est
+soutenue sur les deux marges, la distribution et le capital : conformément au cliquet d'ajustement
+avec $\lambda^{+} > \lambda^{-}$, le capital part plus facilement qu'il ne revient.
+
+\input{figures/dividendes_menages}
+
+\input{figures/cliquet}
+
+{
+\begin{table}[ht]
+    \centering
+    \caption{Le cliquet du capital : réallocation à la hausse de 2013 et à la baisse de 2018}
+    \label{table:h3-cliquet}
+    \tablenotes{Double différence de l'équation~\eqref{eq:did} estimée séparément autour de chaque
+    choc, France contre les cinq pays comparables, effets fixes de société et d'année, contrôle de taille,
+    panel étendu à 2010. La colonne \textit{Choc de 2013} prend l'année 2013 comme début de période
+    traitée sur la fenêtre 2010 à 2016 ; la colonne \textit{Choc de 2018} prend 2018 sur la fenêtre
+    2015 à 2022. La statistique de Student regroupée par pays est entre parenthèses ; les étoiles
+    marquent la significativité d'après la valeur $p$ bilatérale, *** pour $p < 0{,}001$, ** pour
+    $p < 0{,}01$, * pour $p < 0{,}05$, et sont indicatives vu les six groupes. La valeur $p$ de
+    permutation placebo suit. Le dernier bloc donne la semi-élasticité de la distribution des dividendes des ménages, sur
+    base lissée des trois années antérieures au choc, estimée au niveau agrégé. Les définitions sont
+    dans la table~\ref{table:definitions-variables}.\\}
+    \footnotesize
+    \begin{tblr}{colspec={l*{2}{X[1,c]}}}
+    \toprule
+     & (1) & (2) \\
+     & Choc de 2013 & Choc de 2018 \\
+    \midrule
+    \SetCell[c=3]{l}{\textit{Sociétés privées, part de l'actif}} & & \\
+    Réserves sur actif & $+0{,}0942^{*}$ & $+0{,}0332$ \\
+                       & $(+2{,}2)$  & $(+0{,}6)$  \\
+    Fonds propres sur actif & $+0{,}1094^{**}$ & $+0{,}0403$ \\
+                            & $(+2{,}6)$ & $(+0{,}8)$ \\
+     & & \\
+    Placebo $p$, réserves      & $0{,}667$ & $0{,}833$ \\
+    Placebo $p$, fonds propres & $0{,}333$ & $0{,}833$ \\
+     & & \\
+    \SetCell[c=3]{l}{\textit{Ménages, distribution agrégée}} & & \\
+    Semi-élasticité des dividendes & $-0{,}40$ & $+0{,}18$ \\
+     & & \\
+    Effets fixes société et année & Oui & Oui \\
+    Contrôle de taille            & Oui & Oui \\
+    Regroupement                  & Pays & Pays \\
+    \bottomrule
+    \end{tblr}
+\end{table}
+}

@@ -1,0 +1,117 @@
+\appendix
+\section*{Annexe}
+\addcontentsline{toc}{section}{Annexe}
+
+{
+\small
+\begin{longtblr}[
+  caption={Description et définitions des variables},
+  label={table:definitions-variables}
+]{
+  width=\linewidth,
+  colspec={X[2,l]X[6,j]X[2,l]},
+  column{3}={font=\itshape},
+  row{1}={font=\bfseries},
+}
+\toprule
+Variable & Définition & Source \\
+\midrule \addlinespace[6pt]
+\SetCell[c=3]{l}{\textbf{\textit{Variables expliquées}}} & & \\
+\midrule
+Variation du capital $g_{it}$ & Variation annuelle du logarithme du capital souscrit et libéré,
+  $g_{it} = \ln(1 + K_{it}) - \ln(1 + K_{i,t-1})$, où $K_{it}$ est le capital souscrit. & Orbis, Bureau van Dijk \\
+Hausse du capital $a_{it}$ & Indicatrice valant un si le capital souscrit augmente d'une année sur
+  l'autre, zéro sinon. & Orbis, Bureau van Dijk \\
+Ratio de fonds propres $e_{it}$ & Capitaux propres sur total de l'actif, $e_{it} = E_{it} / A_{it}$. & Orbis, Bureau van Dijk \\
+Levier $\ell_{it}$ & Total des dettes sur total de l'actif. & Orbis, Bureau van Dijk \\
+Croissance de la dette & Variation du logarithme de la dette financière, long terme plus emprunts
+  courants. & Orbis, Bureau van Dijk \\
+Investissement & Variation du logarithme des immobilisations corporelles. & Orbis, Bureau van Dijk \\
+Productivité du travail & Logarithme du chiffre d'affaires par salarié. & Orbis, Bureau van Dijk \\
+Réserves sur actif $r_{it}$ & Capitaux propres moins capital souscrit, sur total de l'actif,
+  $r_{it} = (E_{it} - K_{it}) / A_{it}$. & Orbis, Bureau van Dijk \\
+Dividendes des ménages $Y_{ct}$ & Logarithme des dividendes distribués reçus par les ménages du pays
+  $c$ l'année $t$, poste des comptes de secteur. & Eurostat, Office statistique de l'Union européenne \\
+\midrule \addlinespace[6pt]
+\SetCell[c=3]{l}{\textbf{\textit{Traitement et contrôle}}} & & \\
+\midrule
+France $\times$ après réforme & Produit de l'indicatrice France et de l'indicatrice d'année
+  postérieure au choc ; le régresseur de double différence de l'équation~\eqref{eq:did}. & Construction \\
+Taille $s_{it}$ & Logarithme du total de l'actif, $s_{it} = \ln(1 + A_{it})$. & Orbis, Bureau van Dijk \\
+\bottomrule
+\end{longtblr}
+}
+
+\bigskip
+
+{
+\footnotesize
+\begin{longtblr}[
+  caption={Statistiques descriptives},
+  label={table:stats-descriptives}
+]{
+  width=\linewidth,
+  colspec={l*{6}{X[1,c]}},
+  row{1}={font=\bfseries},
+}
+\toprule
+Variable & Obs & Moyenne & Écart-type & P25 & Médiane & P75 \\
+\midrule \addlinespace[6pt]
+\SetCell[c=7]{l}{\textbf{\textit{Variables expliquées}}} & & & & & & \\
+\midrule
+Variation du capital $g_{it}$   & 14\,039\,102 & $0{,}01$  & $0{,}08$ & $0{,}00$   & $0{,}00$  & $0{,}00$ \\
+Hausse du capital $a_{it}$      & 14\,039\,102 & $0{,}02$  & $0{,}15$ & $0{,}00$   & $0{,}00$  & $0{,}00$ \\
+Ratio de fonds propres $e_{it}$ & 16\,150\,854 & $0{,}06$  & $2{,}01$ & $0{,}09$   & $0{,}36$  & $0{,}68$ \\
+Levier $\ell_{it}$              & 16\,154\,361 & $0{,}94$  & $2{,}01$ & $0{,}32$   & $0{,}64$  & $0{,}91$ \\
+Croissance de la dette          & 14\,039\,102 & $-0{,}08$ & $3{,}14$ & $-0{,}13$  & $0{,}00$  & $0{,}00$ \\
+Investissement                  & 13\,165\,380 & $-0{,}03$ & $1{,}52$ & $-0{,}24$  & $-0{,}03$ & $0{,}00$ \\
+Productivité du travail         & 5\,445\,689  & $11{,}30$ & $0{,}91$ & $10{,}76$  & $11{,}29$ & $11{,}85$ \\
+Réserves sur actif $r_{it}$     & 16\,150\,854 & $-0{,}27$ & $3{,}00$ & $-0{,}01$  & $0{,}19$  & $0{,}49$ \\
+\midrule \addlinespace[6pt]
+\SetCell[c=7]{l}{\textbf{\textit{Contrôle}}} & & & & & & \\
+\midrule
+Taille $s_{it}$                 & 16\,169\,607 & $12{,}28$ & $1{,}57$ & $11{,}45$  & $12{,}47$ & $13{,}34$ \\
+\bottomrule
+\end{longtblr}
+}
+
+\medskip
+\noindent{\footnotesize\textit{Notes.} Panel de sociétés privées de la France et de cinq pays comparables,
+Orbis, Bureau van Dijk, comptes annuels de 2013 à 2022. Les variables continues sont winsorisées aux
+premier et quatre-vingt-dix-neuvième centiles. Le minimum et le maximum ne sont pas reportés ; la
+dispersion se lit sur l'écart-type et l'intervalle interquartile. Les effectifs varient selon la
+variable, les variations annuelles et la productivité étant définies sur les seules années-sociétés
+qui portent les lignes de compte requises.}
+
+\bigskip
+
+{
+\begin{table}[ht]
+    \centering
+    \caption{Chocs fiscaux exploités et stratégie d'identification}\label{table:identification}
+    \tablenotes{Variation identifiante du papier, détaillée dans la section~\ref{sec:modele}. Pays
+    traité : la France, deux chocs de sens opposé sur l'imposition des dividendes. Pays de contrôle :
+    régime forfaitaire du capital stable, année d'instauration entre parenthèses, servant de
+    contre-factuel sur toute la fenêtre 2010 à 2022. Le tiret marque une case sans objet. Les dates
+    des textes de loi sont à confirmer avant diffusion. Sources : loi de finances pour 2018
+    \citep{loidefinances2018}, base fiscale de l'OCDE, \citet{sorensen1994} pour la lignée de
+    l'impôt dual.\\}
+    \footnotesize
+    \begin{tblr}{colspec={X[1.2,l] X[3,l] X[0.9,c] X[0.7,c] X[1,c] X[1,c]}}
+    \toprule
+    Pays & Réforme et instrument légal & Sens & Année & Fenêtre avant & Fenêtre après \\
+    \midrule
+    \SetCell[c=6]{l}{\textit{Pays traité}} & & & & & \\
+    France & Loi de finances 2013, retour des dividendes au barème progressif & Hausse & 2013 & 2010--2012 & 2013--2016 \\
+    France & Loi de finances 2018, article 28, prélèvement forfaitaire unique à 30 \% & Baisse & 2018 & 2014--2017 & 2018--2022 \\
+    \midrule
+    \SetCell[c=6]{l}{\textit{Pays de contrôle, régime forfaitaire du capital stable (année d'instauration)}} & & & & & \\
+    Allemagne & \textit{Abgeltungsteuer}, prélèvement forfaitaire à 26,375 \% (2009) & \SetCell[c=4]{l}{Contre-factuel sur 2010--2022} & & & \\
+    Pays-Bas  & \textit{Box 3}, imposition forfaitaire du patrimoine (2001) & \SetCell[c=4]{l}{Contre-factuel sur 2010--2022} & & & \\
+    Espagne   & Base de l'épargne, barème dédié au capital (2007) & \SetCell[c=4]{l}{Contre-factuel sur 2010--2022} & & & \\
+    Belgique  & Précompte mobilier forfaitaire sur dividendes & \SetCell[c=4]{l}{Contre-factuel sur 2010--2022} & & & \\
+    Italie    & \textit{Cedolare secca}, prélèvement forfaitaire sur dividendes & \SetCell[c=4]{l}{Contre-factuel sur 2010--2022} & & & \\
+    \bottomrule
+    \end{tblr}
+\end{table}
+}

@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv*/
+venv/
+.ipynb_checkpoints/
+
+# Licensed firm data (Orbis, Compustat): never committed. The analysis reads these when present;
+# class A of reproduce.py runs without them, class B is gated on their presence.
+*.parquet
+data/firm_panel.parquet
+
+# Acquisition code (pulls the licensed vendor data): excluded by research-repo policy.
+data_download/
+
+# Credentials / secrets
+.env
+.env.*
+*.key
+
+# Generated output
+results/
+
+# Session scratch
+scratchpad/
+
+# LaTeX build artefacts (the sources and the compiled PDF are kept, the intermediates are not)
+*.aux
+*.log
+*.fls
+*.fdb_latexmk
+*.out
+*.bbl
+*.blg
+*.synctex.gz
+*.toc
+*.lof
+*.lot
+
+# Keep the public inputs and the regenerated figure data (negate the broad rules above)
+!data/*.csv
+!manuscript/**/figures/*.csv

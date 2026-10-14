@@ -1,0 +1,69 @@
+\section{Stratégie d'identification et modèle empirique}\label{sec:modele}
+
+La stratégie d'identification repose sur un fait institutionnel : la France a parcouru la même marge
+fiscale, l'imposition des dividendes des personnes physiques résidentes, dans les deux sens à cinq
+ans d'intervalle. La loi de finances 2013 a ramené les dividendes au barème progressif et alourdi
+leur imposition, une hausse que nous estimons sur une fenêtre avant de 2010 à 2012 et une fenêtre
+après de 2013 à 2016. La loi de finances 2018, en son article 28, a instauré le prélèvement
+forfaitaire unique à 30 \%, une baisse que nous estimons sur une fenêtre avant de 2014 à 2017 et une
+fenêtre après de 2018 à 2022. La France est le seul pays à offrir ce couple de chocs symétriques et
+rapprochés, ce qui fournit le contraste dont la mesure du cliquet a besoin. Les cinq pays de
+contrôle, l'Allemagne, les Pays-Bas, l'Espagne, la Belgique et l'Italie, servent de contre-factuel
+sur toute la fenêtre 2010 à 2022 : chacun dispose d'un régime forfaitaire du capital instauré avant
+la fenêtre, l'\textit{Abgeltungsteuer} allemande à 26,375 \% en 2009, le \textit{Box 3} néerlandais
+en 2001, la base de l'épargne espagnole en 2007, le précompte mobilier belge et la \textit{cedolare
+secca} italienne, et aucun ne reproduit l'aller-retour hausse puis baisse de la France. Deux d'entre
+eux ont néanmoins ajusté leur taux forfaitaire dans la fenêtre, l'Italie portant la \textit{cedolare
+secca} à 26 \% en 2014 et la Belgique son précompte mobilier à 30 \% en 2017, sans parcourir la
+marge dans les deux sens ; la permutation placebo, qui classe la France parmi les six pays, et la
+robustesse au choix du pool de comparaison traitent cette composition. Le
+tableau~\ref{table:identification}, en annexe, récapitule cette variation identifiante. Les dates
+des textes de loi sont à confirmer avant diffusion.
+
+L'estimateur principal est une double différence à effets fixes bidirectionnels, dite TWFE pour
+\textit{two-way fixed effects}. La France est le seul groupe traité et les cinq pays comparables forment le
+groupe de contrôle ; chaque réforme a une date de mise en \oe uvre unique. La spécification compare
+donc un seul groupe traité à un ensemble de contrôles autour d'une seule date de traitement, ce qui
+en fait un schéma à deux périodes et deux groupes généralisé à plusieurs années. Pour une variable
+expliquée $y_{it}$,
+\begin{equation}\label{eq:did}
+  y_{it} = \beta \, (D_c \cdot P_t) + \theta \, s_{it} + \alpha_i + \gamma_t + \varepsilon_{it}.
+\end{equation}
+Dans cette équation, $y_{it}$ est la variable expliquée de la société $i$ l'année $t$ ; $D_c$ vaut
+un si le pays $c$ est la France, le pays traité, et zéro pour un pays de contrôle ; $P_t$ vaut un à
+partir de l'année de la réforme et zéro avant ; $s_{it}$ est le logarithme du total de l'actif ;
+$\alpha_i$ est l'effet fixe de société ; $\gamma_t$ l'effet fixe d'année ; et $\varepsilon_{it}$ le
+résidu. Le coefficient d'intérêt $\beta$ mesure l'effet sur la France après la réforme, au-delà de
+la trajectoire commune des contrôles ; son signe attendu suit les hypothèses, nul pour l'entrée de
+capital et les marges de substitution, positif puis plus faible pour les marges de rétention au
+retour qu'à l'aller.
+
+Le choix du TWFE appelle une justification, car cet estimateur a fait l'objet de critiques récentes.
+Lorsque le traitement est échelonné dans le temps sur plusieurs groupes, la double différence à
+effets fixes mélange des comparaisons entre unités traitées tôt et tard et peut pondérer certains
+effets négativement \citep{dechaisemartin2020,goodmanbacon2021}. Ces critiques ne s'appliquent pas
+ici : un seul groupe est traité et chaque choc a une date unique, de sorte qu'aucune comparaison
+interdite entre cohortes de traitement n'intervient et que $\beta$ s'interprète sans ambiguïté comme
+la double différence entre la France et ses contrôles avant et après la réforme.
+
+La dynamique est lue par une étude d'événement qui remplace l'interaction unique par des
+interactions année par année, suivant la spécification à période de référence omise de
+\citet{sunabraham2021},
+\begin{equation}\label{eq:event}
+  y_{it} = \sum_{j \neq j_0} \tau_j \, \bigl(D_c \cdot \mathbf{1}\{t = j\}\bigr)
+           + \theta \, s_{it} + \alpha_i + \gamma_t + \varepsilon_{it},
+\end{equation}
+où $\tau_j$ est l'écart de la France au pays de contrôle l'année $j$, $\mathbf{1}\{\cdot\}$
+l'indicatrice, et $j_0$ l'année de référence omise, 2017 pour le choc de 2018 et 2012 pour le choc
+de 2013. Chaque coefficient $\tau_j$ se lit comme l'écart France contre contrôles l'année $j$
+relativement à l'année de référence. La platitude des $\tau_j$ avant la réforme teste l'hypothèse de
+tendances parallèles ; une rupture après la réforme en signe l'effet dynamique.
+
+L'inférence ne repose pas sur l'erreur-type regroupée, car le nombre de pays traités est de un et le
+nombre de groupes de six, trop faible pour une inférence asymptotique fiable. Nous reportons la
+statistique de Student à titre indicatif, et l'inférence s'appuie sur une permutation placebo de
+l'affectation du traitement à chacun des pays, dont la valeur $p$ est le rang de la France parmi les
+six pays. Avec six pays, cette valeur $p$ a un plancher mécanique d'un sixième, soit environ
+$0{,}167$, ce que nous assumons explicitement. Au niveau agrégé des ménages, l'effet de chaque choc
+est également estimé par un contrôle synthétique \citep{abadie2010,abadie2015}, la France étant
+reconstruite comme combinaison convexe des donneurs ajustée sur la période antérieure au choc.

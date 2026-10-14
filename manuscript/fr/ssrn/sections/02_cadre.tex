@@ -1,0 +1,85 @@
+\section{Cadre théorique et hypothèses}\label{sec:cadre}
+
+Le mécanisme que nous cherchons à identifier est l'arbitrage, par un actionnaire personne physique
+qui contrôle la distribution de sa société, entre se verser un euro de bénéfice immédiatement
+imposé et le laisser dans la société pour qu'elle l'investisse. Le cadre théorique est celui des
+nouvelles vues de l'impôt sur les dividendes, dans lequel l'investissement financé par les bénéfices
+retenus n'est pas affecté par le taux d'imposition des dividendes \citep{auerbach1979,king1977,chetty2005}.
+Nous le présentons par un modèle à deux dates qui rend le mécanisme explicite et dont les hypothèses
+testables descendent directement.
+
+Un actionnaire détient un euro de bénéfice après impôt sur les sociétés. Il peut le distribuer
+aujourd'hui, le dividende étant taxé au taux $\tau_d$, et placer le net au-dehors à un rendement $r$
+lui-même imposé au taux $\tau_i$ ; ou bien le laisser dans la société, qui l'investit dans un projet
+de rendement marginal $\rho$ et le distribue à la date suivante. La première voie procure, à la date
+suivante, une consommation nette de $(1-\tau_d)\bigl(1 + r(1-\tau_i)\bigr)$. La seconde procure
+$(1-\tau_d)(1+\rho)$. L'actionnaire est indifférent lorsque les deux voies s'égalisent,
+\begin{equation}\label{eq:arbitrage}
+  (1-\tau_d)\,(1+\rho) = (1-\tau_d)\,\bigl(1 + r(1-\tau_i)\bigr),
+\end{equation}
+où $\tau_d$ est le taux d'imposition des dividendes, $\tau_i$ celui des autres revenus du capital de
+l'actionnaire, $r$ le rendement de son placement extérieur et $\rho$ le rendement marginal du projet
+financé par la société. Le taux $\tau_d$ apparaît en facteur des deux membres et s'élimine, de sorte
+que le rendement marginal qui déclenche l'investissement vaut
+\begin{equation}\label{eq:neutralite}
+  \rho^{\star} = r\,(1-\tau_i),
+\end{equation}
+indépendamment de $\tau_d$. C'est le résultat de neutralité des nouvelles vues : un euro de bénéfice
+retenu supporte la taxe sur les dividendes qu'il soit distribué aujourd'hui ou demain, la taxe se
+capitalise des deux côtés et ne déplace pas la marge d'investissement. Une variation de $\tau_d$ ne
+change donc ni l'entrée de capital neuf, qui ne serait utile que pour financer un investissement
+que $\rho^{\star}$ ne commande pas, ni le besoin de financement externe par la dette. Elle ne joue
+que sur le calendrier et le niveau des versements. De là découlent les deux premières hypothèses.
+
+\medskip
+\noindent\textit{Hypothèse H1. Une baisse de la fiscalité des dividendes ne fait pas entrer de
+capital neuf dans les fonds propres des sociétés.}
+\smallskip
+
+\noindent Le mécanisme est celui de l'équation~\eqref{eq:neutralite} : la réforme abaisse le coût de
+sortie des fonds sans toucher le rendement $\rho^{\star}$ qui commande l'investissement, donc sans
+créer de besoin de capital neuf. Le signe attendu sur l'entrée de capital est nul.
+
+\medskip
+\noindent\textit{Hypothèse H2. Une baisse de la fiscalité des dividendes ne provoque ni substitution
+par la dette ni baisse de l'investissement.}
+\smallskip
+
+\noindent Le mécanisme est que, si rien ne quitte le financement interne pour un investissement
+supplémentaire, les sociétés n'ont pas à remplacer les fonds distribués par de la dette. Les signes
+attendus sur le levier et sur l'investissement sont nuls.
+
+La troisième hypothèse est l'apport central et exige d'enrichir le modèle statique d'une dynamique
+d'ajustement. \citet{bach2023} établissent que la hausse d'impôt de 2013 a accru la rétention des
+bénéfices des sociétés contrôlées par leur actionnaire, un déplacement vers l'épargne interne plutôt
+que vers l'investissement. Notons $R_t$ le stock de capital retenu dans la société à la date $t$ et
+$R^{\star}(\tau_d)$ sa cible, croissante en $\tau_d$ puisqu'un impôt plus lourd sur la sortie incite
+à conserver les fonds dans la société. Le stock s'ajuste vers sa cible selon
+\begin{equation}\label{eq:ajustement}
+  R_t - R_{t-1} = \lambda^{\pm}\,\bigl(R^{\star}(\tau_d) - R_{t-1}\bigr),
+  \qquad \lambda^{+} \ge \lambda^{-},
+\end{equation}
+où $R_t$ est le capital retenu, $R^{\star}(\tau_d)$ sa cible fonction du taux d'imposition des
+dividendes, et $\lambda^{\pm}$ la vitesse d'ajustement, qui prend la valeur $\lambda^{+}$ quand la
+cible monte, après une hausse d'impôt qui pousse à retenir, et $\lambda^{-}$ quand elle baisse, après
+une baisse d'impôt qui permet de relâcher. Les coûts d'ajustement et un motif de précaution rendent
+la rétention plus rapide que la libération, soit $\lambda^{+} \ge \lambda^{-}$, ce qui engendre un
+cliquet : à chocs d'ampleur égale et de sens opposé, le capital retenu réagit davantage à la hausse
+qu'à la baisse. La même asymétrie se transmet à la distribution, miroir de la rétention.
+
+\medskip
+\noindent\textit{Hypothèse H3. La réponse de la distribution et de l'allocation du capital à la
+fiscalité des dividendes est asymétrique : la baisse de 2018 ne défait qu'une fraction de l'effet de
+la hausse de 2013, de sorte que le capital part plus facilement qu'il ne revient.}
+\smallskip
+
+\noindent Le mécanisme est celui de l'équation~\eqref{eq:ajustement} avec $\lambda^{+} > \lambda^{-}$.
+Le signe attendu est une semi-élasticité de la distribution à la baisse inférieure, en valeur
+absolue, à celle de la hausse, et une réallocation du capital plus faible au retour qu'à l'aller.
+
+Ce même cadre oriente l'identification. L'arbitrage de l'équation~\eqref{eq:arbitrage} suppose un
+actionnaire résident qui pilote la distribution, ce qui ne vaut que dans les sociétés privées
+contrôlées. Dans une société cotée à l'actionnariat dispersé et international, aucun contribuable
+résident ne fixe la politique de versement, qui obéit au signal de marché et non au taux marginal
+$\tau_d$ d'un ménage. La réponse à la réforme ne peut donc vivre que dans les sociétés privées, ce
+qui fournit le contrôle négatif des sociétés cotées.

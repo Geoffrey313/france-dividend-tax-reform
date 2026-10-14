@@ -1,0 +1,33 @@
+\begin{figure}[ht]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[paperaxis,
+      xlabel={Année}, ylabel={Dividendes reçus par les ménages (indice, 2017 $=100$)},
+      xtick={2013,2014,2015,2016,2017,2018,2019,2020,2021,2022},
+      xticklabel style={/pgf/number format/1000 sep=},
+      legend pos=north west, legend cell align=left,
+      ymin=40,
+    ]
+      % Cinq pays de comparaison, tous en gris : meme sens de couleur dans tout le papier.
+      \addplot[controlgrey] table[col sep=comma, x=year, y=DE] {figures/dividendes_menages.csv};
+      \addplot[controlgrey] table[col sep=comma, x=year, y=IT] {figures/dividendes_menages.csv};
+      \addplot[controlgrey] table[col sep=comma, x=year, y=ES] {figures/dividendes_menages.csv};
+      \addplot[controlgrey] table[col sep=comma, x=year, y=BE] {figures/dividendes_menages.csv};
+      \addplot[controlgrey] table[col sep=comma, x=year, y=NL] {figures/dividendes_menages.csv};
+      \addlegendentry{Pays de comparaison}
+      % La France, toujours en bleu.
+      \addplot[franceblue, line width=1.6pt, mark=*, mark options={scale=0.8}]
+        table[col sep=comma, x=year, y=FR] {figures/dividendes_menages.csv};
+      \addlegendentry{France}
+      % Reforme de 2018 : marqueur vert, la couleur de la baisse d'impot.
+      \draw[baisse2018, dashed, line width=1pt] (axis cs:2018,40) -- (axis cs:2018,200);
+    \end{axis}
+  \end{tikzpicture}
+  \caption{Dividendes reçus par les ménages, France et cinq pays comparables, indice base 100 en 2017}
+  \label{fig:dividendes}
+  \fignote{Dividendes distribués reçus par les ménages, poste des comptes de secteur
+  (ressources du secteur des ménages), millions d'euros courants, ramenés à un indice valant 100 en
+  2017. En bleu la France, le pays traité ; en gris les cinq pays de comparaison, l'Allemagne,
+  l'Italie, l'Espagne, la Belgique et les Pays-Bas. La ligne verte verticale marque la réforme de
+  2018. Source : Eurostat, Office statistique de l'Union européenne.}
+\end{figure}
