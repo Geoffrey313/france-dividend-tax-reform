@@ -23,6 +23,7 @@ results/
 
 # Session scratch
 scratchpad/
+.claude/
 
 # LaTeX build artefacts (the sources and the compiled PDF are kept, the intermediates are not)
 *.aux
