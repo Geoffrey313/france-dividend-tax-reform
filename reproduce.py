@@ -85,6 +85,17 @@ def class_b(out: dict) -> bool:
 
     out["cut_at_2019"] = {"coef": results.cut_at_2019(real)["coef"]}
 
+    # Shareholder heterogeneity (Section 6 robustness): the owner-manager channel. Needs the Orbis
+    # ownership snapshot, part of the same licensed extract; skipped with class B if it is absent.
+    flags_path = RAW / "ownership_flags.parquet"
+    if flags_path.exists():
+        out["phase4"] = results.heterogeneity_shareholder(real, pd.read_parquet(flags_path))
+        ex = out["phase4"]["exposed"][S.DLOG_CAPITAL]
+        print(f"  shareholder heterogeneity  exposed dlog_capital {ex['coef']:+.4f} "
+              f"(t {ex['t']:+.1f}, coverage {out['phase4']['coverage']:.2f})")
+    else:
+        print("  shareholder heterogeneity  SKIPPED: ownership_flags.parquet absent")
+
     long = pd.read_parquet(RAW / "firm_panel_2010.parquet")
     # The ratchet (Table 3, cliquet and capital_retenu figures). Build on the full 2010-2022 window
     # so the balance filter and winsorization see the whole panel, then estimate on each shock window

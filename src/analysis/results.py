@@ -124,6 +124,42 @@ def robustness_2013(long_panel: pd.DataFrame) -> dict:
             "no_subsidy_controls": subset}
 
 
+# --- Shareholder heterogeneity (Section 6 robustness): the owner-manager channel -----------------
+
+def _did_cell(frame: pd.DataFrame, outcome: str, study: Study) -> dict:
+    """Size-only difference-in-differences coefficient, t ratio, and sample size on a subsample.
+
+    No synthetic control here: a country-aggregate placebo on an ownership subsample would mix a
+    changing sample composition into the donor pool, so only the regression cell is carried.
+    """
+    d = did.fit(frame, outcome, study, controls=BASELINE)
+    return {"coef": d.coef, "t": d.z, "n": d.n_obs, "n_firms": d.n_firms}
+
+
+def heterogeneity_shareholder(real_panel: pd.DataFrame, flags: pd.DataFrame,
+                              study: Study = STUDY) -> dict:
+    """H1 re-estimated on the subset of firms with an individual reference shareholder above 10 pct.
+
+    The flat tax reaches the firm through the resident owner-manager who steers its distribution, so
+    the capital-entry null is most at risk of masking an effect among firms that have such a
+    shareholder. We merge the firm-level ownership flag onto the built panel and re-estimate the two
+    capital margins on the exposed firms, size-only; the non-exposed group and the full matched
+    sample are carried for comparison. The flag is an Orbis ownership snapshot, so coverage is partial
+    and uneven across countries, and inference still rests on six country clusters.
+    """
+    built = panel_engine.build(real_panel, study)
+    flag = flags[[S.FIRM, "indiv_ref"]].drop_duplicates(S.FIRM)
+    m = built.merge(flag, on=S.FIRM, how="left")
+    groups = {"exposed": m[m["indiv_ref"] == True], "non_exposed": m[m["indiv_ref"] == False],
+              "matched": m[m["indiv_ref"].notna()]}
+    out = {"coverage": float(m["indiv_ref"].notna().mean()),
+           "exposed_share": float(m.loc[m["indiv_ref"].notna(), "indiv_ref"].mean())}
+    for g, frame in groups.items():
+        out[g] = {o: _did_cell(frame.copy(), o, study)
+                  for o in (S.DLOG_CAPITAL, S.CAP_INCREASE)}
+    return out
+
+
 # --- Covid tail and the cut at 2019 (Section 6) --------------------------------------------------
 
 def cut_at_2019(real_panel: pd.DataFrame) -> dict:

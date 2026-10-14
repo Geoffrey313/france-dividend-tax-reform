@@ -28,6 +28,17 @@ def fr_int(n: int) -> str:
     return s
 
 
+def _phase4_targets(out: dict) -> list[tuple[str, str, str]]:
+    """Shareholder-heterogeneity tokens, only when the ownership snapshot was present at regen."""
+    p = out.get("phase4")
+    if not p:
+        return []
+    ex = p["exposed"]
+    return [("Phase4 exposed capital coef", fr(ex["dlog_capital"]["coef"], 4), ROBUSTESSE),
+            ("Phase4 exposed capital t", f"({fr(ex['dlog_capital']['t'], 1)})", ROBUSTESSE),
+            ("Phase4 exposed cap_increase coef", fr(ex["cap_increase"]["coef"], 4), ROBUSTESSE)]
+
+
 def check(out: dict) -> None:
     cap = out["table1"]["dlog_capital"]
     inc = out["table1"]["cap_increase"]
@@ -69,6 +80,7 @@ def check(out: dict) -> None:
         ("dividend jump reform value", fr_int(jump["reform_value"]), RESULTATS),
         ("dividend jump pct", fr(jump["pct"], 3, signed=False), RESULTATS),
         ("cut at 2019 coef", fr(out["cut_at_2019"]["coef"], 4), ROBUSTESSE),
+        *_phase4_targets(out),
         ("decoupling dividends FR", fr(dec["dividends"]["fr"], 1, signed=False), ROBUSTESSE),
         ("decoupling dividends comp", fr(dec["dividends"]["comp"], 1, signed=False), ROBUSTESSE),
         ("decoupling dividends gap", fr(dec["dividends"]["gap"], 1, signed=False), ROBUSTESSE),
