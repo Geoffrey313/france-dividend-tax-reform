@@ -36,7 +36,8 @@ def check(out: dict) -> None:
     deb = out["table2"]["dlog_debt"]
     inv = out["table2"]["dlog_fixed"]
     prod = out["table2"]["log_labor_prod"]
-    cl = out["cliquet_retained"]  # Table 3, retained from committed cliquet.csv (not reproduced)
+    t3 = out["table3"]            # Table 3, regenerated from the full-window ratchet build
+    rob = out["robustness_2013"]  # Section 6 robustness on the 2013 retention coefficient
     jump = out["dividend_jump"]
     dec = out["decoupling_2021"]
 
@@ -57,10 +58,13 @@ def check(out: dict) -> None:
         ("H2 investment coef", fr(inv["coef"], 4), RESULTATS),
         ("H2 investment t", f"({fr(inv['t'], 1)})", RESULTATS),
         ("H2 productivity coef", fr(prod["coef"], 4), RESULTATS),
-        ("H3 retention 2013 (retained)", fr(cl["retention"]["choc2013"], 4), RESULTATS),
-        ("H3 retention 2018 (retained)", fr(cl["retention"]["choc2018"], 4), RESULTATS),
-        ("H3 fonds propres 2013 (retained)", fr(cl["fondspropres"]["choc2013"], 4), RESULTATS),
-        ("H3 fonds propres 2018 (retained)", fr(cl["fondspropres"]["choc2018"], 4), RESULTATS),
+        ("H3 retention 2013", fr(t3["2013"]["retention"]["coef"], 4), RESULTATS),
+        ("H3 retention 2018", fr(t3["2018"]["retention"]["coef"], 4), RESULTATS),
+        ("H3 fonds propres 2013", fr(t3["2013"]["fondspropres"]["coef"], 4), RESULTATS),
+        ("H3 fonds propres 2018", fr(t3["2018"]["fondspropres"]["coef"], 4), RESULTATS),
+        ("H3 retention 2013 with ACE", fr(rob["with_ace"], 4), ROBUSTESSE),
+        ("H3 retention 2013 with cycle", fr(rob["with_cycle"], 4), ROBUSTESSE),
+        ("H3 retention 2013 no-subsidy", fr(rob["no_subsidy_controls"], 4), ROBUSTESSE),
         ("dividend jump ref value", fr_int(jump["ref_value"]), RESULTATS),
         ("dividend jump reform value", fr_int(jump["reform_value"]), RESULTATS),
         ("dividend jump pct", fr(jump["pct"], 3, signed=False), RESULTATS),
@@ -79,15 +83,8 @@ def check(out: dict) -> None:
         flag = "ok " if token in text else "MISS"
         print(f"  check {flag} {label:34s} {token}")
 
-    att = out.get("ratchet_attempt_size_only")
-    if att:
-        print("  note: the size-only recompute of the ratchet does NOT match the retained Table 3 "
-              "values and is reported, not gated (original spec not recovered):")
-        for yr in ("2013", "2018"):
-            print(f"    {yr} retention attempt {att[yr]['retention']['coef']:+.4f} vs retained "
-                  f"{cl['retention']['choc' + yr]:+.4f}  |  fonds propres attempt "
-                  f"{att[yr]['fondspropres']['coef']:+.4f} vs retained "
-                  f"{cl['fondspropres']['choc' + yr]:+.4f}")
+    print("  note: the SQ1 aggregate distribution semi-elasticities (the cliquet distribution row) "
+          "are carried as a documented constant, reported not gated (aggregate script not recovered).")
     if missing:
         print(f"\nCONSISTENCY CHECK FAILED: {len(missing)} manuscript number(s) do not match the "
               "regenerated results:")

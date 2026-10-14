@@ -86,19 +86,16 @@ def class_b(out: dict) -> bool:
     out["cut_at_2019"] = {"coef": results.cut_at_2019(real)["coef"]}
 
     long = pd.read_parquet(RAW / "firm_panel_2010.parquet")
-    # The ratchet (Table 3, cliquet and capital_retenu figures) is recomputed here as a size-only
-    # attempt, but it does NOT reproduce the committed displayed coefficients: the exact window,
-    # balance, and panel vintage behind those numbers were not recovered (the original script was
-    # lost). Per the reproduction policy we do not force a match; the committed cliquet.csv,
-    # capital_retenu.csv, and the Table 3 numbers are retained verbatim and flagged, not overwritten.
-    out["ratchet_attempt_size_only"] = {"2013": results.ratchet_shock(long, results.SHOCK_2013),
-                                        "2018": results.ratchet_shock(long, results.SHOCK_2018)}
-    try:  # robustness-only, not gated; a rank hiccup here must not fail the reproduction
-        out["robustness_2013"] = results.robustness_2013(long)
-    except Exception as exc:  # noqa: BLE001
-        out["robustness_2013"] = {"error": repr(exc)}
-        print(f"  robustness_2013 skipped: {exc!r}")
-    print("  cliquet.csv / capital_retenu.csv  RETAINED (ratchet not reproduced; see report)")
+    # The ratchet (Table 3, cliquet and capital_retenu figures). Build on the full 2010-2022 window
+    # so the balance filter and winsorization see the whole panel, then estimate on each shock window
+    # (results._build_shock); this reproduces the displayed coefficients exactly. The aggregate SQ1
+    # distribution row is carried as a documented constant (results.SQ1_DISTRIBUTION).
+    out["table3"] = {"2013": results.ratchet_shock(long, results.SHOCK_2013),
+                     "2018": results.ratchet_shock(long, results.SHOCK_2018)}
+    out["robustness_2013"] = results.robustness_2013(long)
+    print("  " + emit.cliquet_csv(out["table3"]["2013"], out["table3"]["2018"],
+                                  results.SQ1_DISTRIBUTION))
+    print("  " + emit.retention_path_csv(results.retention_level_path(long)))
     return True
 
 
@@ -112,12 +109,6 @@ def main() -> None:
 
     results_path = paths.ROOT / "manuscript" / "fr" / "ssrn" / "paper_results.json"
     if ran_b:
-        # The ratchet (Table 3) is retained from the committed cliquet.csv, the durable artifact the
-        # paper displays; it is not reproduced (see class_b). Carry it into the JSON for the record.
-        cliquet = pd.read_csv(emit.FIGDIR / "cliquet.csv").set_index("marge")
-        out["cliquet_retained"] = {m: {"choc2013": float(cliquet.loc[m, "choc2013"]),
-                                       "choc2018": float(cliquet.loc[m, "choc2018"])}
-                                   for m in cliquet.index}
         results_path.write_text(json.dumps(out, indent=2))
         print(f"wrote         {results_path.relative_to(paths.ROOT)}")
         from src.analysis import check_manuscript

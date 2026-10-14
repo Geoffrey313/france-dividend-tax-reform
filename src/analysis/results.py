@@ -14,7 +14,7 @@ from __future__ import annotations
 import numpy as np
 import pandas as pd
 
-from src.common import schema as S
+from src.common import paths, schema as S
 from src.common.config import STUDY, Study, ace_active
 from src.engine import panel as panel_engine
 from src.engine import did, synth
@@ -66,14 +66,33 @@ def event_study(built: pd.DataFrame, outcome: str, study: Study = STUDY) -> pd.D
 
 # --- The ratchet: the 2013 hike and the 2018 cut in one frame (Table 3, cliquet figure) ----------
 
+RATCHET_FIRST_YEAR = 2010  # the extended panel reaches back to 2010 for the 2013-shock pre-period
+# Aggregate distribution semi-elasticities (SQ1), smoothed base, |value|, from the Eurostat D42
+# broad panel. The firm-level ratchet below is regenerated live from the panel; these two aggregate
+# values are carried as documented constants from the SQ1 estimation (session log 2026-10-13, Outline
+# spec 345e3e4b) whose standalone script was not recovered, pending a committed re-wiring of that
+# aggregate pipeline. They are gated against the manuscript like every other displayed number.
+SQ1_DISTRIBUTION = {"2013": 0.3997359598056483, "2018": 0.1780259354754353}
 SHOCK_2013 = Study(first_year=2010, reference_year=2012, reform_year=2013, last_year=2016)
 SHOCK_2018 = Study(first_year=2015, reference_year=2017, reform_year=2018, last_year=2022)
 RETENTION_LONG = Study(first_year=2010, reference_year=2012, reform_year=2013, last_year=2022)
 
 
+def _build_shock(long_panel: pd.DataFrame, shock: Study) -> pd.DataFrame:
+    """Build on the full 2010-2022 window, then restrict to the shock window.
+
+    The balance filter and the winsorization must see the whole panel: building on the short shock
+    window alone selects a different, more-complete sample and halves the coefficient. The estimator
+    then uses only the shock window.
+    """
+    full = shock.model_copy(update={"first_year": RATCHET_FIRST_YEAR, "last_year": STUDY.last_year})
+    built = panel_engine.build(long_panel, full)
+    return built[built[S.YEAR].between(shock.first_year, shock.last_year)].copy()
+
+
 def ratchet_shock(long_panel: pd.DataFrame, shock: Study) -> dict:
     """Retention and own-funds difference-in-differences around one tax shock, size-only."""
-    built = panel_engine.build(long_panel, shock)
+    built = _build_shock(long_panel, shock)
     return {"retention": _cell(built, S.RESERVES_RATIO, shock),
             "fondspropres": _cell(built, S.EQUITY_RATIO, shock)}
 
@@ -87,17 +106,22 @@ def retention_level_path(long_panel: pd.DataFrame, study: Study = RETENTION_LONG
 
 
 def robustness_2013(long_panel: pd.DataFrame) -> dict:
-    """Section 6 robustness on the 2013 retention coefficient: an equity-allowance indicator, a
-    subset of controls with no allowance, and an unemployment control. Reuses one 2013-shock build.
+    """Section 6 robustness on the 2013 retention coefficient: an equity-allowance indicator, an
+    added unemployment (cycle) control, and a subset restricted to the no-allowance controls. Reuses
+    one full-window 2013-shock build.
     """
-    built = panel_engine.build(long_panel, SHOCK_2013)
+    built = _build_shock(long_panel, SHOCK_2013)
     built = built.assign(**{"ace": [int(ace_active(c, y))
                                     for c, y in zip(built[S.COUNTRY], built[S.YEAR])]})
+    unemp = pd.read_csv(paths.DATA / "unemployment_2010_2022.csv")[[S.COUNTRY, S.YEAR, "unemp"]]
+    built = built.merge(unemp, on=[S.COUNTRY, S.YEAR], how="left")
     base = did.fit(built, S.RESERVES_RATIO, SHOCK_2013, controls=BASELINE).coef
     with_ace = did.fit(built, S.RESERVES_RATIO, SHOCK_2013, controls=[S.SIZE, "ace"]).coef
+    with_cycle = did.fit(built, S.RESERVES_RATIO, SHOCK_2013, controls=[S.SIZE, "ace", "unemp"]).coef
     no_subsidy = built[built[S.COUNTRY].isin(("FR", "DE", "NL"))]
     subset = did.fit(no_subsidy, S.RESERVES_RATIO, SHOCK_2013, controls=BASELINE).coef
-    return {"baseline": base, "with_ace": with_ace, "no_subsidy_controls": subset}
+    return {"baseline": base, "with_ace": with_ace, "with_cycle": with_cycle,
+            "no_subsidy_controls": subset}
 
 
 # --- Covid tail and the cut at 2019 (Section 6) --------------------------------------------------
