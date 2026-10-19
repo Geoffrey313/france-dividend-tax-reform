@@ -41,6 +41,8 @@ def main() -> None:
     print("wrote results/distributional_estimates.csv")
     print("wrote results/distributional_event_studies.csv")
     print("wrote results/distributional_pool_robustness.csv")
+    print("wrote results/distributional_mirror_2013.csv")
+    print("wrote results/distributional_mirror_2018.csv")
 
 
 if __name__ == "__main__":

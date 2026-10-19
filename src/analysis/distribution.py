@@ -298,6 +298,25 @@ def pool_robustness_table(results: dict) -> pd.DataFrame:
     return pd.DataFrame(rows)
 
 
+def _write_figure_series(events: pd.DataFrame, output_dir: Path) -> None:
+    """Write the two compact event paths consumed by the manuscript's descriptive figure."""
+    definitions = {
+        "2013": ("2013_long", 2012),
+        "2018": ("2018_precovid", 2017),
+    }
+    for label, (window, reference_year) in definitions.items():
+        series = events[
+            events["outcome"].eq("pretax_income_top_1")
+            & events["controls"].eq("none")
+            & events["window"].eq(window)
+        ][["year", "coef_pp", "std_error_pp"]].copy()
+        reference = pd.DataFrame({
+            "year": [reference_year], "coef_pp": [0.0], "std_error_pp": [0.0]
+        })
+        series = pd.concat([series, reference], ignore_index=True).sort_values("year")
+        series.to_csv(output_dir / f"distributional_mirror_{label}.csv", index=False)
+
+
 def run(output_dir: Path | None = None) -> dict:
     """Run the extension and write machine-readable results without touching the manuscript."""
     output_dir = output_dir or paths.RESULTS
@@ -312,4 +331,5 @@ def run(output_dir: Path | None = None) -> dict:
         output_dir / "distributional_pool_robustness.csv", index=False
     )
     events.to_csv(output_dir / "distributional_event_studies.csv", index=False)
+    _write_figure_series(events, output_dir)
     return results
