@@ -56,9 +56,9 @@ leaves more readily than it returns?
 
 ```
 src/common/    study and simulation parameters; column schema; portable paths
-src/data/      readers for the delivered transformed data
-src/engine/    panel construction, two-way fixed-effects DiD, synthetic control
-src/analysis/  estimation driver (per-outcome DiD + synthetic-control placebos)
+src/data/      synthetic-panel generator and WID distributional-data acquisition
+src/engine/    firm- and country-level two-way fixed-effects DiD, synthetic control
+src/analysis/  estimation drivers (DiD + synthetic-control and permutation placebos)
 src/figures/   figure and table emitters
 reproduce.py   deterministic end-to-end entry point
 data/          transformed open-data inputs (Eurostat / OECD); see data/README.md
@@ -72,6 +72,25 @@ python -m venv .venv && . .venv/bin/activate
 pip install -r requirements.txt
 python reproduce.py
 ```
+
+The distributional extension can also be run on its own:
+
+```
+python run_distribution.py
+```
+
+It compares France with Germany, Italy, Spain, Belgium, and the Netherlands around the 2013 and
+2018 tax packages. The income mirror uses 2010--2016 around 2013 and the pre-Covid 2014--2019
+window around 2018; 2010--2014 and 2014--2022 are sensitivity windows. It writes the full
+estimates, in-space placebo ranks, synthetic-control placebos, event paths, comparison-pool
+sensitivities, and WID data-quality diagnostics under `results/`. The estimand is the
+reduced-form incidence of each package: it does not separately identify the PFU and the
+ISF-to-IFI reform, and the available harmonized WID outcomes do not directly measure dividend
+income. Pretax and posttax income shares are consequently the closest detectable signal, not a
+direct capital-income measure. Net wealth is context only: France's WID series is grade 0 after
+2014, so its 2018 estimate is an imputation-based diagnostic rather than an observed-data finding.
+Robustness checks drop Italy and Belgium successively, change the comparison pool, and add public
+house-price and equity-return controls. These estimates remain descriptive.
 
 The run is deterministic. It chains the shipped transformed data through the engine, the
 analysis, and the figure emitters. The open-data figures (household dividends, the

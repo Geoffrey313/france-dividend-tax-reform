@@ -43,7 +43,8 @@ def _ols_cluster(x: np.ndarray, y: np.ndarray, cluster: np.ndarray):
         s = x[cluster == c].T @ resid[cluster == c]
         meat += np.outer(s, s)
     cov = xtx_inv @ meat @ xtx_inv
-    return beta, np.sqrt(np.diag(cov))
+    # Round-off can leave a variance at a tiny negative value in exact-fit synthetic tests.
+    return beta, np.sqrt(np.clip(np.diag(cov), 0.0, None))
 
 
 @dataclass(frozen=True)

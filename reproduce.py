@@ -24,7 +24,7 @@ from src.common import paths
 from src.common.config import SIM, STUDY
 from src.common import schema as S
 from src.data import simulate
-from src.analysis import estimate, results
+from src.analysis import distribution, estimate, results
 from src.figures import emit
 
 warnings.filterwarnings("ignore")  # the ratio outcomes divide by zero on empty balance lines
@@ -46,7 +46,7 @@ def self_test() -> None:
 
 
 def class_a(out: dict) -> None:
-    """Public Eurostat series: the dividend figure, the reform jump, the 2021 decoupling."""
+    """Public Eurostat/WID series, including the distributional extension."""
     div = pd.read_csv(paths.DATA / "dividends_cross_country.csv")
     surplus = pd.read_csv(paths.DATA / "corp_surplus_2010_2022.csv")
     gdp = pd.read_csv(paths.DATA / "gdp_volume_2010_2022.csv")
@@ -61,6 +61,9 @@ def class_a(out: dict) -> None:
     print(f"  2021 index FR/comp  dividends {d['dividends']['fr']:.1f}/{d['dividends']['comp']:.1f} "
           f"surplus {d['surplus']['fr']:.1f}/{d['surplus']['comp']:.1f} "
           f"gdp {d['gdp']['fr']:.1f}/{d['gdp']['comp']:.1f}")
+
+    out["distributional_extension"] = distribution.run()
+    print("  distributional extension  WID 2013/2018 estimates and diagnostics written")
 
 
 def class_b(out: dict) -> bool:

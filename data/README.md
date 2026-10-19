@@ -6,7 +6,8 @@ flat tax. Two classes of input sit here, and the reproduction is organised aroun
 ## Class A: public, redistributable (committed, refreshable from the open APIs)
 
 Open Eurostat and related public series, read by the class-A stage of `reproduce.py` without any
-licence. Each is refreshed by its acquisition script under `data_download/` (public, keyless).
+licence. Each is refreshed by its public, keyless acquisition script under `data_download/` or
+`scripts/`.
 
 | file | content |
 |------|---------|
@@ -18,6 +19,22 @@ licence. Each is refreshed by its acquisition script under `data_download/` (pub
 | `unemployment_2010_2022.csv` | unemployment rate by country and year (Eurostat) |
 | `dividend_tax_rate_2010_2022.csv` | top dividend tax rate by country and year |
 | `framing_fr.csv` | long-format public framing series for France (`series`, `year`, `value`, `unit`) |
+
+| `wid_distribution_2010_2022.csv` | top-1%, top-10%, and bottom-50% shares of net wealth, pretax income, and posttax income for France and the five comparison countries (WID.world country bulk files) |
+| `asset_prices_2010_2022.csv` | annual house-price index (Eurostat `prc_hpi_a`) and equity-index return (World Bank `CM.MKT.INDX.ZG`) used only as asset-price robustness controls |
+
+The WID file retains the source variable code, percentile code, and data-quality grade on every
+row. It is regenerated from the official country bulk files with
+`python -m scripts.fetch_wid_distribution`; definitions are in the
+[WID codes dictionary](https://wid.world/codes-dictionary/) and grades in the
+[WID data-quality documentation](https://wid.world/data-quality/). Under WID's quality convention, distributed-wealth
+grades of at least 1 and distributed-income grades of at least 3 are treated as observed-data
+estimates. France's net-wealth series falls to grade 0 from 2015 onward; those observations are
+income-inequality-based imputations and are never presented as observed wealth measurements.
+The asset-price file is regenerated with `python -m scripts.fetch_asset_prices`; these controls
+are reported as sensitivity specifications because asset prices may themselves react to policy.
+Eurostat does not report Italy's annual house-price change for 2010; that single country-year is
+left missing and dropped only from specifications using asset-price controls.
 
 ## Class B: licensed, not redistributable (never committed, gitignored)
 
