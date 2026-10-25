@@ -4,11 +4,25 @@ __pycache__/
 .venv*/
 venv/
 .ipynb_checkpoints/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+build/
+dist/
+*.egg-info/
 
-# Licensed firm data (Orbis, Compustat): never committed. The analysis reads these when present;
-# class A of reproduce.py runs without them, class B is gated on their presence.
+# Licensed raw and intermediate firm data (Orbis, Compustat): never committed.
+# The final estimation samples are explicitly re-included at the end of this file.
 *.parquet
 data/firm_panel.parquet
+data/raw/
+
+# Intermediate analytical datasets and non-canonical sample variants.
+data/derived/
 
 # Acquisition code (pulls the licensed vendor data): excluded by research-repo policy.
 data_download/
@@ -16,7 +30,11 @@ data_download/
 # Credentials / secrets
 .env
 .env.*
+!.env.example
 *.key
+*.pem
+.netrc
+.pgpass
 
 # Generated output
 results/
@@ -25,7 +43,7 @@ results/
 scratchpad/
 .claude/
 
-# LaTeX build artefacts (the sources and the compiled PDF are kept, the intermediates are not)
+# LaTeX build intermediates (the manuscript itself is excluded below)
 *.aux
 *.log
 *.fls
@@ -37,7 +55,70 @@ scratchpad/
 *.toc
 *.lof
 *.lot
+*.bcf
+*.run.xml
+*.nav
+*.snm
+*.vrb
+*.xdv
 
-# Keep the public inputs and the regenerated figure data (negate the broad rules above)
+# Operating-system and editor scratch files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+*.tmp
+*.bak
+
+# Keep the public open-data inputs (Eurostat / OECD CSV under data/).
 !data/*.csv
-!manuscript/**/figures/*.csv
+
+# Manuscript (LaTeX sources, figures, compiled PDF): the deliverable, kept out of the published
+# code repository. reproduce.py regenerates the figure CSVs and paper_results.json on disk, and
+# check_manuscript.py reads the .tex on disk; neither needs the manuscript tracked.
+manuscript/
+
+# Internal working notes (session logs, drafts): not part of the published repository.
+docs/internal/
+
+# Extension-only open inputs, not consumed by reproduce.py's paper pipeline (kept on disk for
+# documented extensions, out of the published repo). Re-excluded after the !data/*.csv keep rule.
+data/dividend_tax_rate_2010_2022.csv
+data/dividends_cross_country_broad.csv
+data/dividends_world.csv
+data/house_prices.csv
+data/household_flows_fr.csv
+data/framing_fr.csv
+
+# Third-party reference PDFs (copyrighted): kept locally, never published.
+docs/reference/
+
+# Final estimation samples used by the paper. These are the only firm-level Parquets admitted to
+# the repository; .gitattributes stores them through Git LFS.
+!data/derived/
+data/derived/*
+!data/derived/square_samples_canonical/
+data/derived/square_samples_canonical/*
+!data/derived/square_samples_canonical/*.parquet
+!data/derived/square_samples_canonical/manifest.json
+!data/derived/square_samples_canonical/recent_coverage.csv
+# This unused complete-window intersection is retained locally but is not consumed by the paper.
+data/derived/square_samples_canonical/private_large_vl_2018_full_complete.parquet
+
+# Local-only construction and acquisition pipeline. The replication package starts from the final
+# estimation samples above.
+build_harmonized_firm_panels.py
+scripts/fetch_*.py
+run_firm_growth.py
+run_firm_growth_controls.py
+run_firm_growth_listed_controls.py
+src/analysis/firm_growth.py
+src/analysis/firm_growth_listed_controls.py
+src/data/harmonized_firm_panels.py
+tests/test_firm_growth.py
+tests/test_harmonized_firm_panels.py
+
+# Superseded deflator vintages; the empirical code uses only the 2005--2025 file.
+data/gdp_deflator_2005_2022.csv
+data/gdp_deflator_2010_2022.csv

@@ -1,27 +1,21 @@
-# After the Flat Tax: Capital Leaves Faster Than It Returns
+# Capital Leaves Faster Than It Returns: The Asymmetry of France's 2018 Flat Tax
 
 The 2018 French single flat tax, firm capital, and household distribution, in a cross-country
 difference-in-differences design.
 
-**Authors.** Geoffrey Ducournau.
+**Authors.** Withheld for double-blind review.
 
 ## Abstract
 
-Capital-income taxation is meant to steer saving toward productive financing, yet where the
-money freed by a tax cut actually goes is poorly observed. The single flat tax (prélèvement
-forfaitaire unique) introduced in France in 2018, a proportional thirty-percent levy on
-dividends and capital gains, offers a clean case. We compare French firms to those of five
-comparable neighbouring economies, before and after the reform, on a panel of more than sixteen
-million firm-years drawn from Orbis, complemented by listed firms from Compustat Global and by
-Eurostat national accounts. The reform brought no new capital into firm equity, neither private
-nor listed, and triggered neither debt substitution nor higher investment. The money left to
-households as dividends, up thirty-two percent in the reform year, and settled in liquid savings
-and portfolio equity, not in firm capital or housing. Placing the 2013 tax hike and the 2018 cut
-in a single frame uncovers an asymmetry: the hike had reallocated capital toward retained
-earnings, and the symmetric cut undoes only a fraction of it, less than half once anticipation is
-netted out. Capital leaves more readily than it returns. This fiscal ratchet, coherent across
-distribution and capital allocation, shows that a tax cut does not undo the distortions of a past
-hike, a result that matters for any assessment of capital taxation.
+The study compares France with Germany, Italy, Spain, Belgium, and the Netherlands around the 2012--2013
+tax package and the 2018 single flat tax. It combines 2,636,675 Orbis observations for 272,906 Large and
+Very Large private firms, 38,937 Compustat Global observations for 3,115 listed firms, Eurostat national
+accounts, and WID.world distributional series. After 2018, all three private-firm capital-entry margins
+decline relatively, with clustered Student statistics between -1.95 and -3.50. The full 2018--2025
+window shows no fall in tangible investment; the 2018--2019 pre-Covid window instead shows a 2.85-point
+increase. Household dividends rise by 32% in 2018. Comparing the two tax packages gives economically
+marked descriptive evidence of payout asymmetry, but the firm-accounting margins do not jointly confirm
+the predicted ratchet. The distributional extension is descriptive rather than causal.
 
 ## Research questions
 
@@ -39,36 +33,36 @@ leaves more readily than it returns?
 
 ## Main results
 
-- **H1 supported.** The difference-in-differences coefficient on subscribed-capital growth is
-  −0.0034, a precisely estimated null; the placebo permutation ranks France at the smallest gap of
-  the six countries.
-- **H2 not supported in the substitution direction.** Leverage (−0.0472) and its mirror, the
-  equity ratio (+0.0474), are both null; no debt replaces the equity that is not distributed, and
-  investment does not rise.
-- **Destination.** Household dividends rise 32% in 2018 and settle in deposits and listed-share
-  portfolios, not in unlisted firm capital or housing.
-- **H3 supported.** The cut undoes about 45% of the distribution effect of the hike, and about a
-  third of the capital reallocation (retained earnings and equity return in a 1-to-2.8 and
-  1-to-2.7 ratio). The ratchet survives controls for ACE-type equity subsidies and for the cycle,
-  and holds when the window stops in 2019, before the Covid state-guaranteed-loan tail.
+- **H1, directional support.** Private-firm subscribed-capital growth, capital increases, and the
+  equity ratio all decline relatively after 2018. Clustered Student statistics are the primary
+  inference; the six-country permutation ranks are complementary diagnostics.
+- **H2, window-dependent investment response.** The full 2018--2025 window shows no tangible-asset
+  decline. The 2018--2019 window instead yields a +2.85-point tangible-asset response (t = 13.06),
+  while total assets increase by 1.23 points.
+- **Destination.** Household dividends received rise 32% in the reform year. The evidence points to
+  higher payouts without a uniform increase in firm financing or investment.
+- **H3, differentiated evidence.** The aggregate payout response after 2018 is about 45% of the
+  opposite-signed response after 2013. This is economically meaningful descriptive asymmetry, not a
+  direct equality test. Firm reserves and equity do not jointly confirm the predicted ratchet.
 
 ## Repository layout
 
 ```
 src/common/    study and simulation parameters; column schema; portable paths
-src/data/      synthetic-panel generator and WID distributional-data acquisition
+src/data/      synthetic validation used by the estimator self-test
 src/engine/    firm- and country-level two-way fixed-effects DiD, synthetic control
 src/analysis/  estimation drivers (DiD + synthetic-control and permutation placebos)
 src/figures/   figure and table emitters
 reproduce.py   deterministic end-to-end entry point
-data/          transformed open-data inputs (Eurostat / OECD); see data/README.md
+data/          final public inputs and final firm estimation samples; see data/README.md
 protocol/      frozen analysis plan
 ```
 
 ## Reproduction
 
 ```
-python -m venv .venv && . .venv/bin/activate
+python -m venv .venv-repro
+. .venv-repro/bin/activate
 pip install -r requirements.txt
 python reproduce.py
 ```
@@ -79,9 +73,10 @@ The distributional extension can also be run on its own:
 python run_distribution.py
 ```
 
-It compares France with Germany, Italy, Spain, Belgium, and the Netherlands around the 2013 and
-2018 tax packages. The income mirror uses 2010--2016 around 2013 and the pre-Covid 2014--2019
-window around 2018; 2010--2014 and 2014--2022 are sensitivity windows. It writes the full
+It compares France with Germany, Italy, Spain, Belgium, and the Netherlands around the 2012--2013 and
+2018 tax packages. The first package starts in 2012 and uses 2011 as its reference because the 2012
+exceptional wealth levy already enters posttax income. The 2018 package uses 2017 as its reference
+and 2018--2019 as its pre-Covid post-period. It writes the full
 estimates, in-space placebo ranks, synthetic-control placebos, event paths, comparison-pool
 sensitivities, and WID data-quality diagnostics under `results/`. The estimand is the
 reduced-form incidence of each package: it does not separately identify the PFU and the
@@ -92,23 +87,46 @@ direct capital-income measure. Net wealth is context only: France's WID series i
 Robustness checks drop Italy and Belgium successively, change the comparison pool, and add public
 house-price and equity-return controls. These estimates remain descriptive.
 
-The run is deterministic. It chains the shipped transformed data through the engine, the
-analysis, and the figure emitters. The open-data figures (household dividends, the
-distribution-vs-earnings decoupling, the distribution leg of the asymmetry) regenerate from the
-committed Eurostat/OECD series without network access. The firm-level figures and tables (capital
-entry, leverage, cash and financial debt, retained capital, the descriptive statistics) require
-the licensed Orbis panel, which is not redistributable; when it is present the run recomputes them
-and checks their digest, otherwise it skips them and says so.
+The integrated firm-accounting analysis can be rebuilt separately from the released final
+estimation samples with `python run_firm_growth_harmonized.py`. It
+estimates Orbis Large/Very Large firms and listed Compustat Global firms separately
+around 2013 and 2018; Small is excluded and no asset-size filter recreates an Orbis library. The
+controlled specification uses firm and stable two-digit-industry-by-year fixed effects, lagged
+size, lagged firm age, lagged leverage when it is not mechanically redundant with the dependent
+variable. The manuscript specification is static. Outcomes are estimated on canonical common
+samples: listwise deletion is applied jointly to each declared family and its lagged controls,
+controls are never filled, and every retained firm has at least one observation before and after
+the reform. Private firms use one common sample per outcome family plus a complete-sample
+sensitivity; listed firms use one common sample. Listed external equity financing is
+measured by `net_ext_equity_at = (delta CEQ - delta RE) / lagged assets`, with the accounting-residual
+caveat retained in the metadata. A country-specific 50% coverage gate is applied before every
+outcome. Estimates, event paths, joint pretrend diagnostics, spatial placebo ranks, family tests,
+coverage diagnostics, common-sample manifests, and the source-separated comparison are written
+under `results/`. Country-composition robustness re-estimates the headline outcomes after dropping
+each control country in turn and with inverse country sample-size weights so every country receives
+the same total weight; run it with `python run_firm_growth_square_robustness.py`.
+
+The run is deterministic and has three live stages: a synthetic recovery self-test; public Eurostat
+and WID series; and the final Orbis Large/Very Large plus Compustat estimation samples. The historical
+broad-Orbis pipeline is retired. Public-series, distributional, and firm-accounting headline numbers
+are all checked against both manuscript languages. The WID analysis remains explicitly descriptive;
+the firm hypotheses use the common controlled specification with firm and industry-by-year fixed
+effects. The exact input and output hashes and dependency versions are written to
+`results/reproduction_manifest.json`. The replication package starts from the checksummed final
+firm estimation samples stored through Git LFS; raw licensed extracts and acquisition code are not
+part of the repository.
 
 ## Data policy
 
-The repository ships every non-licensed transformed input as CSV under `data/`: household
-distributed income, corporate gross operating surplus, GDP volume, unemployment, house prices,
-household financial flows, and the dividend-tax-rate panel (Eurostat and OECD, open, CC BY 4.0).
-The firm-level panels (Orbis, Bureau van Dijk; Compustat Global, S&P Global Market Intelligence)
-are proprietary and not redistributable; they are **available on request**, and `data/README.md`
-documents their schema so a third party can reconstruct the input.
+The repository ships the public final inputs consumed by the reproduction as CSV under
+`data/`: household distributed income (the six-country index and a broad 27-country panel),
+corporate gross operating surplus, GDP volume, unemployment (Eurostat, open, CC BY 4.0), and
+income and net-wealth shares (WID.world).
+For the firm analysis, only the final common estimation samples and their checksum manifest are
+included. Raw Orbis and Compustat extracts, acquisition programs, harmonized source panels, and
+unused intermediate variants remain outside the repository. Access and redistribution of the final
+samples must follow the underlying data licences.
 
 ## Contact
 
-G.ducournau.voisin@gmail.com
+Corresponding author contact available on request.

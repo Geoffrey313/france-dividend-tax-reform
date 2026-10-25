@@ -1,4 +1,4 @@
-"""Two-shock empirical analysis of inequality around the 2013 and 2018 tax packages.
+"""Two-package empirical analysis of inequality around 2012--2013 and 2018.
 
 The estimand is deliberately reduced-form: the differential path of France around each package,
 not a decomposition of the PFU and the ISF-to-IFI reform.  No harmonized annual capital-income or
@@ -18,8 +18,12 @@ from src.common import paths, schema as S
 from src.common.config import Study
 from src.engine import country_did, synth
 
-SHOCK_2013 = Study(first_year=2010, reference_year=2012, reform_year=2013, last_year=2014)
-SHOCK_2013_LONG = Study(first_year=2010, reference_year=2012, reform_year=2013, last_year=2016)
+# The distributive outcome subtracts both income and wealth taxes.  The first French package
+# therefore starts with the exceptional wealth contribution paid in 2012 and continues with the
+# 2013 Finance Act (restored progressive ISF schedule and dividend taxation at the income-tax
+# scale).  Dating this package to 2012 avoids treating an already-taxed year as the reference.
+SHOCK_2013 = Study(first_year=2010, reference_year=2011, reform_year=2012, last_year=2014)
+SHOCK_2013_LONG = Study(first_year=2010, reference_year=2011, reform_year=2012, last_year=2016)
 SHOCK_2018_PRECOVID = Study(
     first_year=2014, reference_year=2017, reform_year=2018, last_year=2019
 )
@@ -170,6 +174,13 @@ def estimate(panel: pd.DataFrame) -> tuple[dict, pd.DataFrame]:
     """Estimate baseline and cycle-controlled specifications for all outcomes and windows."""
     results: dict = {"metadata": {
         "estimand": "reduced-form country-year differential; tax packages are not decomposed",
+        "package_dates": {
+            "2013_observed_and_long_legacy_keys": (
+                "distributional package starts in 2012 with the exceptional wealth contribution; "
+                "2011 is the omitted reference year"
+            ),
+            "2018": "PFU and ISF-to-IFI package starts in 2018; 2017 is the omitted reference year",
+        },
         "countries": list((SHOCK_2013.treated,) + SHOCK_2013.controls),
         "outcome_hierarchy": {
             "detectable_income_signal": list(SIGNAL_OUTCOMES),
@@ -299,14 +310,14 @@ def pool_robustness_table(results: dict) -> pd.DataFrame:
 
 
 def _write_figure_series(events: pd.DataFrame, output_dir: Path) -> None:
-    """Write the two compact event paths consumed by the manuscript's descriptive figure."""
+    """Write post-tax event paths for the manuscript's household-incidence figure."""
     definitions = {
-        "2013": ("2013_long", 2012),
+        "2013": ("2013_long", 2011),
         "2018": ("2018_precovid", 2017),
     }
     for label, (window, reference_year) in definitions.items():
         series = events[
-            events["outcome"].eq("pretax_income_top_1")
+            events["outcome"].eq("posttax_income_top_1")
             & events["controls"].eq("none")
             & events["window"].eq(window)
         ][["year", "coef_pp", "std_error_pp"]].copy()
@@ -314,7 +325,29 @@ def _write_figure_series(events: pd.DataFrame, output_dir: Path) -> None:
             "year": [reference_year], "coef_pp": [0.0], "std_error_pp": [0.0]
         })
         series = pd.concat([series, reference], ignore_index=True).sort_values("year")
-        series.to_csv(output_dir / f"distributional_mirror_{label}.csv", index=False)
+        series.to_csv(
+            output_dir / f"distributional_mirror_{label}.csv",
+            index=False,
+            float_format="%.6f",
+        )
+
+
+def _write_group_series(results: dict, output_dir: Path) -> None:
+    """Write post-tax-income estimates by income group for the manuscript comparison figure."""
+    rows = []
+    for position, group in enumerate(("bottom_50", "top_10", "top_1"), start=1):
+        mirror = results["mirror"][f"posttax_income_{group}"]
+        rows.append({
+            "position": position,
+            "group": group,
+            "coef_2013_pp": mirror["coef_2013_pp"],
+            "coef_2018_pp": mirror["coef_2018_pp"],
+        })
+    pd.DataFrame(rows).to_csv(
+        output_dir / "distributional_by_income_group.csv",
+        index=False,
+        float_format="%.6f",
+    )
 
 
 def run(output_dir: Path | None = None) -> dict:
@@ -332,4 +365,5 @@ def run(output_dir: Path | None = None) -> dict:
     )
     events.to_csv(output_dir / "distributional_event_studies.csv", index=False)
     _write_figure_series(events, output_dir)
+    _write_group_series(results, output_dir)
     return results

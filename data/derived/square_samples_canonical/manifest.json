@@ -1,0 +1,729 @@
+{
+  "schema_version": 1,
+  "samples": [
+    {
+      "population": "private_large_vl",
+      "shock": "2013",
+      "family": "capital",
+      "window": [
+        2008,
+        2016
+      ],
+      "reference_year": 2012,
+      "reform_year": 2013,
+      "dependent_variables": [
+        "dlog_capital",
+        "cap_increase",
+        "equity_growth_real",
+        "equity_ratio"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2013",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 735152,
+      "initial_firms": 249757,
+      "after_listwise_rows": 440404,
+      "after_listwise_firms": 189256,
+      "final_rows": 207137,
+      "final_firms": 34004,
+      "rows_by_country": {
+        "FR": 59981,
+        "DE": 39981,
+        "IT": 39884,
+        "ES": 33650,
+        "BE": 13403,
+        "NL": 20238
+      },
+      "firms_by_country": {
+        "FR": 9975,
+        "DE": 6661,
+        "IT": 6249,
+        "ES": 5678,
+        "BE": 2020,
+        "NL": 3421
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2013_capital.parquet",
+      "sha256": "c7f88859bedcdadf2b38d7190f998ace876c7f3aa62c2f842e4bb05083636d05"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2013",
+      "family": "complete",
+      "window": [
+        2008,
+        2016
+      ],
+      "reference_year": 2012,
+      "reform_year": 2013,
+      "dependent_variables": [
+        "dlog_capital",
+        "cap_increase",
+        "equity_growth_real",
+        "equity_ratio",
+        "asset_growth_real",
+        "tangible_growth_real",
+        "intangible_growth_real",
+        "reserves_ratio",
+        "cash_at",
+        "fin_debt_ratio",
+        "dlog_debt"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2013",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 735152,
+      "initial_firms": 249757,
+      "after_listwise_rows": 383767,
+      "after_listwise_firms": 171981,
+      "final_rows": 172904,
+      "final_firms": 29040,
+      "rows_by_country": {
+        "FR": 54014,
+        "DE": 34575,
+        "IT": 39134,
+        "ES": 27973,
+        "BE": 11189,
+        "NL": 6019
+      },
+      "firms_by_country": {
+        "FR": 9313,
+        "DE": 5841,
+        "IT": 6160,
+        "ES": 4803,
+        "BE": 1754,
+        "NL": 1169
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2013_complete.parquet",
+      "sha256": "1c573daae480baa3e43d7695e2008f5f723ac6f4d182396c55e83e4dc33a01a1"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2013",
+      "family": "investment",
+      "window": [
+        2008,
+        2016
+      ],
+      "reference_year": 2012,
+      "reform_year": 2013,
+      "dependent_variables": [
+        "asset_growth_real",
+        "tangible_growth_real",
+        "intangible_growth_real"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2013",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 735152,
+      "initial_firms": 249757,
+      "after_listwise_rows": 456326,
+      "after_listwise_firms": 191758,
+      "final_rows": 221868,
+      "final_firms": 35990,
+      "rows_by_country": {
+        "FR": 64396,
+        "DE": 42421,
+        "IT": 46579,
+        "ES": 35149,
+        "BE": 12645,
+        "NL": 20678
+      },
+      "firms_by_country": {
+        "FR": 10688,
+        "DE": 6980,
+        "IT": 7047,
+        "ES": 5823,
+        "BE": 1935,
+        "NL": 3517
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2013_investment.parquet",
+      "sha256": "a6027e9d1a0983587ec41aaa1b3c489d4ec37971f9ad4ef7bbab7a54699fd4fd"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2013",
+      "family": "resources",
+      "window": [
+        2008,
+        2016
+      ],
+      "reference_year": 2012,
+      "reform_year": 2013,
+      "dependent_variables": [
+        "reserves_ratio",
+        "cash_at",
+        "fin_debt_ratio",
+        "dlog_debt"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2013",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 735152,
+      "initial_firms": 249757,
+      "after_listwise_rows": 429284,
+      "after_listwise_firms": 183837,
+      "final_rows": 205290,
+      "final_firms": 33709,
+      "rows_by_country": {
+        "FR": 60972,
+        "DE": 41332,
+        "IT": 45857,
+        "ES": 36139,
+        "BE": 12997,
+        "NL": 7993
+      },
+      "firms_by_country": {
+        "FR": 10287,
+        "DE": 6847,
+        "IT": 6964,
+        "ES": 6080,
+        "BE": 1997,
+        "NL": 1534
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2013_resources.parquet",
+      "sha256": "7ea48b420a7d3cc35c492188363683153b8f8c7c3dfd08232b28045d8877112e"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2018_full",
+      "family": "capital",
+      "window": [
+        2013,
+        2025
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "dlog_capital",
+        "cap_increase",
+        "equity_growth_real",
+        "equity_ratio"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 2337481,
+      "initial_firms": 262891,
+      "after_listwise_rows": 1901860,
+      "after_listwise_firms": 249520,
+      "final_rows": 1675308,
+      "final_firms": 196989,
+      "rows_by_country": {
+        "FR": 374577,
+        "DE": 324062,
+        "IT": 436292,
+        "ES": 320737,
+        "BE": 134344,
+        "NL": 85296
+      },
+      "firms_by_country": {
+        "FR": 45089,
+        "DE": 38152,
+        "IT": 49525,
+        "ES": 37439,
+        "BE": 15376,
+        "NL": 11408
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2018_full_capital.parquet",
+      "sha256": "c269c5fe5fbdfb1caf69660e1fd3402edffbd922b2d1b52a38f2e9b5d53f10b4"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2018_full",
+      "family": "investment",
+      "window": [
+        2013,
+        2025
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "asset_growth_real",
+        "tangible_growth_real",
+        "intangible_growth_real"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 2337481,
+      "initial_firms": 262891,
+      "after_listwise_rows": 1945664,
+      "after_listwise_firms": 252619,
+      "final_rows": 1705948,
+      "final_firms": 199045,
+      "rows_by_country": {
+        "FR": 401365,
+        "DE": 332136,
+        "IT": 437588,
+        "ES": 318562,
+        "BE": 130711,
+        "NL": 85586
+      },
+      "firms_by_country": {
+        "FR": 47691,
+        "DE": 38703,
+        "IT": 49176,
+        "ES": 36992,
+        "BE": 15043,
+        "NL": 11440
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2018_full_investment.parquet",
+      "sha256": "adee9b3d2b5c44b48e2ba2b3cd7ca08dc1592c24f425137a47806f5724c79330"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2018_full",
+      "family": "resources",
+      "window": [
+        2013,
+        2025
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "reserves_ratio",
+        "cash_at",
+        "fin_debt_ratio",
+        "dlog_debt"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 2337481,
+      "initial_firms": 262891,
+      "after_listwise_rows": 1846690,
+      "after_listwise_firms": 244794,
+      "final_rows": 1614545,
+      "final_firms": 190133,
+      "rows_by_country": {
+        "FR": 375267,
+        "DE": 324050,
+        "IT": 432895,
+        "ES": 320076,
+        "BE": 130483,
+        "NL": 31774
+      },
+      "firms_by_country": {
+        "FR": 45671,
+        "DE": 38076,
+        "IT": 48837,
+        "ES": 37529,
+        "BE": 15147,
+        "NL": 4873
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2018_full_resources.parquet",
+      "sha256": "29ab2899ed182b652ba6a3547579c64627082f3bafbf1ea53161c0a8f67580a7"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2018_precovid",
+      "family": "capital",
+      "window": [
+        2013,
+        2019
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "dlog_capital",
+        "cap_increase",
+        "equity_growth_real",
+        "equity_ratio"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 1198835,
+      "initial_firms": 260823,
+      "after_listwise_rows": 873193,
+      "after_listwise_firms": 235894,
+      "final_rows": 773049,
+      "final_firms": 189734,
+      "rows_by_country": {
+        "FR": 176895,
+        "DE": 151441,
+        "IT": 191258,
+        "ES": 152635,
+        "BE": 58454,
+        "NL": 42366
+      },
+      "firms_by_country": {
+        "FR": 42336,
+        "DE": 36766,
+        "IT": 48908,
+        "ES": 36122,
+        "BE": 15176,
+        "NL": 10426
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2018_precovid_capital.parquet",
+      "sha256": "7aa41b33e1842721084beee7e645e923bb954a42ebfae87a227474cc6c0c9a79"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2018_precovid",
+      "family": "complete",
+      "window": [
+        2013,
+        2019
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "dlog_capital",
+        "cap_increase",
+        "equity_growth_real",
+        "equity_ratio",
+        "asset_growth_real",
+        "tangible_growth_real",
+        "intangible_growth_real",
+        "reserves_ratio",
+        "cash_at",
+        "fin_debt_ratio",
+        "dlog_debt"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 1198835,
+      "initial_firms": 260823,
+      "after_listwise_rows": 777717,
+      "after_listwise_firms": 216397,
+      "final_rows": 682263,
+      "final_firms": 169372,
+      "rows_by_country": {
+        "FR": 160053,
+        "DE": 137842,
+        "IT": 182151,
+        "ES": 136689,
+        "BE": 52151,
+        "NL": 13377
+      },
+      "firms_by_country": {
+        "FR": 38905,
+        "DE": 33594,
+        "IT": 46650,
+        "ES": 32950,
+        "BE": 13716,
+        "NL": 3557
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2018_precovid_complete.parquet",
+      "sha256": "d1fe9fb48228b421bc2e3a3e2a0b9c768168bf809bd0bfca3ca8fc8f092d8f10"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2018_precovid",
+      "family": "investment",
+      "window": [
+        2013,
+        2019
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "asset_growth_real",
+        "tangible_growth_real",
+        "intangible_growth_real"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 1198835,
+      "initial_firms": 260823,
+      "after_listwise_rows": 888250,
+      "after_listwise_firms": 238165,
+      "final_rows": 786127,
+      "final_firms": 191922,
+      "rows_by_country": {
+        "FR": 187950,
+        "DE": 155513,
+        "IT": 193360,
+        "ES": 150163,
+        "BE": 56622,
+        "NL": 42519
+      },
+      "firms_by_country": {
+        "FR": 44877,
+        "DE": 37438,
+        "IT": 48794,
+        "ES": 35628,
+        "BE": 14753,
+        "NL": 10432
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2018_precovid_investment.parquet",
+      "sha256": "77c07971e8324eed7984de2bd73c3df992b12e63706390d5a61180dbb829c658"
+    },
+    {
+      "population": "private_large_vl",
+      "shock": "2018_precovid",
+      "family": "resources",
+      "window": [
+        2013,
+        2019
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "reserves_ratio",
+        "cash_at",
+        "fin_debt_ratio",
+        "dlog_debt"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 1198835,
+      "initial_firms": 260823,
+      "after_listwise_rows": 842870,
+      "after_listwise_firms": 229102,
+      "final_rows": 745051,
+      "final_firms": 182827,
+      "rows_by_country": {
+        "FR": 176516,
+        "DE": 152124,
+        "IT": 191365,
+        "ES": 152410,
+        "BE": 56923,
+        "NL": 15713
+      },
+      "firms_by_country": {
+        "FR": 42593,
+        "DE": 36759,
+        "IT": 48398,
+        "ES": 36117,
+        "BE": 14838,
+        "NL": 4122
+      },
+      "path": "data/derived/square_samples_canonical/private_large_vl_2018_precovid_resources.parquet",
+      "sha256": "68ebfafcca37faae06c26b66680b2779518245ad4894e946768a9d0c19749983"
+    },
+    {
+      "population": "public_listed",
+      "shock": "2013",
+      "family": "complete",
+      "window": [
+        2008,
+        2016
+      ],
+      "reference_year": 2012,
+      "reform_year": 2013,
+      "dependent_variables": [
+        "net_ext_equity_at",
+        "equity_growth_real",
+        "equity_ratio",
+        "asset_growth_real",
+        "tangible_growth_real",
+        "intangible_growth_real",
+        "capex_at",
+        "sales_growth_real",
+        "operating_roa",
+        "retained_earnings_at",
+        "cash_at",
+        "fin_debt_ratio",
+        "dlog_debt"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2013",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 16881,
+      "initial_firms": 2460,
+      "after_listwise_rows": 15113,
+      "after_listwise_firms": 2319,
+      "final_rows": 13265,
+      "final_firms": 1630,
+      "rows_by_country": {
+        "FR": 4325,
+        "DE": 4571,
+        "IT": 1763,
+        "ES": 992,
+        "BE": 754,
+        "NL": 860
+      },
+      "firms_by_country": {
+        "FR": 528,
+        "DE": 558,
+        "IT": 221,
+        "ES": 124,
+        "BE": 91,
+        "NL": 108
+      },
+      "path": "data/derived/square_samples_canonical/public_listed_2013_complete.parquet",
+      "sha256": "c58643a7f7e23c59836b7d1edf2d65acadd40d187f9359d83cc33bf0ac6080ac"
+    },
+    {
+      "population": "public_listed",
+      "shock": "2018_full",
+      "family": "complete",
+      "window": [
+        2013,
+        2025
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "net_ext_equity_at",
+        "equity_growth_real",
+        "equity_ratio",
+        "asset_growth_real",
+        "tangible_growth_real",
+        "intangible_growth_real",
+        "capex_at",
+        "sales_growth_real",
+        "operating_roa",
+        "retained_earnings_at",
+        "cash_at",
+        "fin_debt_ratio",
+        "dlog_debt"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 23553,
+      "initial_firms": 2516,
+      "after_listwise_rows": 20678,
+      "after_listwise_firms": 2399,
+      "final_rows": 17846,
+      "final_firms": 1643,
+      "rows_by_country": {
+        "FR": 5611,
+        "DE": 5751,
+        "IT": 2895,
+        "ES": 1523,
+        "BE": 919,
+        "NL": 1147
+      },
+      "firms_by_country": {
+        "FR": 525,
+        "DE": 508,
+        "IT": 284,
+        "ES": 137,
+        "BE": 82,
+        "NL": 107
+      },
+      "path": "data/derived/square_samples_canonical/public_listed_2018_full_complete.parquet",
+      "sha256": "2036b7d58b7082dc24963ef67e6cda0572a6103f9166108e439eb97d637edc9c"
+    },
+    {
+      "population": "public_listed",
+      "shock": "2018_precovid",
+      "family": "complete",
+      "window": [
+        2013,
+        2019
+      ],
+      "reference_year": 2017,
+      "reform_year": 2018,
+      "dependent_variables": [
+        "net_ext_equity_at",
+        "equity_growth_real",
+        "equity_ratio",
+        "asset_growth_real",
+        "tangible_growth_real",
+        "intangible_growth_real",
+        "capex_at",
+        "sales_growth_real",
+        "operating_roa",
+        "retained_earnings_at",
+        "cash_at",
+        "fin_debt_ratio",
+        "dlog_debt"
+      ],
+      "controls": [
+        "lag_book_leverage",
+        "lag_log_assets_real",
+        "lag_log_firm_age"
+      ],
+      "sector": "sector_stable_2018",
+      "missing_policy": "listwise_no_fillna",
+      "firm_rule": "at_least_one_pre_and_one_post_observation",
+      "initial_rows": 13070,
+      "initial_firms": 2329,
+      "after_listwise_rows": 11528,
+      "after_listwise_firms": 2158,
+      "final_rows": 10219,
+      "final_firms": 1598,
+      "rows_by_country": {
+        "FR": 3275,
+        "DE": 3271,
+        "IT": 1647,
+        "ES": 862,
+        "BE": 525,
+        "NL": 639
+      },
+      "firms_by_country": {
+        "FR": 509,
+        "DE": 496,
+        "IT": 277,
+        "ES": 135,
+        "BE": 81,
+        "NL": 100
+      },
+      "path": "data/derived/square_samples_canonical/public_listed_2018_precovid_complete.parquet",
+      "sha256": "6db30b094951cf133072e77a25f1aa7dc704d3b239633e4bf6517b1ab4c4befd"
+    }
+  ]
+}

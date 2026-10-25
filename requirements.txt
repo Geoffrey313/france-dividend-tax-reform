@@ -4,3 +4,4 @@ scipy==1.13.1
 statsmodels==0.14.2
 pyarrow==16.1.0
 pydantic==2.7.4
+pyhdfe==0.2.0

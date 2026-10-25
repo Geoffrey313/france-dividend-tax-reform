@@ -1,7 +1,16 @@
 # Pre-registration: Did the Flat Tax Bring Capital into Firms?
 
-**Authors.** Geoffrey Ducournau.
+**Authors.** Withheld for double-blind review.
 **Date.** 2026-10-12, control set amended 2026-10-13. **Status.** Frozen before estimation on the firm panel.
+
+**Post-registration extension, 2026-10-25.** The original 2013--2022 design remains frozen. At the
+author's request, the licensed firm panels are refreshed through 2025 and the post-2018 event study
+is extended through $t+7$. The 2013--2019 pre-pandemic window remains the main specification. The
+2013--2025 window is a separate pandemic and post-pandemic sensitivity; it does not separately
+identify delayed reform effects from period-specific shocks. A common pandemic indicator is
+absorbed by industry-by-year fixed effects, while a France-by-pandemic interaction overlaps the
+post-treatment event coefficients. Because 2025 accounts are incomplete in the current Orbis
+vintage, 2025 estimates are provisional and country-year coverage is reported.
 
 This plan replaces the earlier household design. Matched individual tax data (POTE, panel
 ISF-IFI) sit inside the CASD enclave and are not reachable without a habilitated French

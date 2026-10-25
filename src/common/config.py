@@ -4,6 +4,10 @@ from __future__ import annotations
 from pydantic import BaseModel, ConfigDict
 
 
+FIRM_FIRST_YEAR = 2005
+FIRM_LAST_YEAR = 2025
+
+
 class Frozen(BaseModel):
     model_config = ConfigDict(frozen=True)
 

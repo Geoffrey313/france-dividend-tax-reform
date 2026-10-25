@@ -67,14 +67,20 @@ def event_study(built: pd.DataFrame, outcome: str, study: Study = STUDY) -> pd.D
 # --- The ratchet: the 2013 hike and the 2018 cut in one frame (Table 3, cliquet figure) ----------
 
 RATCHET_FIRST_YEAR = 2010  # the extended panel reaches back to 2010 for the 2013-shock pre-period
-# Aggregate distribution semi-elasticities (SQ1), smoothed base, |value|, from the Eurostat D42
-# broad panel. The firm-level ratchet below is regenerated live from the panel; these two aggregate
-# values are carried as documented constants from the SQ1 estimation (session log 2026-10-13, Outline
-# spec 345e3e4b) whose standalone script was not recovered, pending a committed re-wiring of that
-# aggregate pipeline. They are gated against the manuscript like every other displayed number.
-SQ1_DISTRIBUTION = {"2013": 0.3997359598056483, "2018": 0.1780259354754353}
+
+# Aggregate distribution semi-elasticity (SQ1): the smoothed response of household dividends
+# (Eurostat D42, received, sector S14) to each tax shock, France against the five comparables. The
+# base is the mean log dividend over the three pre-shock years, the post value is the reform year,
+# and the statistic is France minus the mean of the comparables. Recomputed from the committed broad
+# panel, so no aggregate value is hard-coded; it feeds the distribution row of the ratchet figure and
+# the displayed semi-elasticities, gated at their displayed precision.
+SQ1_COMPARABLES = ("FR", "DE", "IT", "ES", "BE", "NL")
 SHOCK_2013 = Study(first_year=2010, reference_year=2012, reform_year=2013, last_year=2016)
 SHOCK_2018 = Study(first_year=2015, reference_year=2017, reform_year=2018, last_year=2022)
+# Symmetric windows (three years before and after each shock, equal length) for the asymmetry-test
+# robustness: they answer the objection that the two shock windows above differ in length and overlap.
+SHOCK_2013_SYM = Study(first_year=2010, reference_year=2012, reform_year=2013, last_year=2015)
+SHOCK_2018_SYM = Study(first_year=2015, reference_year=2017, reform_year=2018, last_year=2020)
 RETENTION_LONG = Study(first_year=2010, reference_year=2012, reform_year=2013, last_year=2022)
 
 
@@ -95,6 +101,87 @@ def ratchet_shock(long_panel: pd.DataFrame, shock: Study) -> dict:
     built = _build_shock(long_panel, shock)
     return {"retention": _cell(built, S.RESERVES_RATIO, shock),
             "fondspropres": _cell(built, S.EQUITY_RATIO, shock)}
+
+
+def ratchet_asymmetry_test(long_panel: pd.DataFrame,
+                           outcomes=(S.RESERVES_RATIO, S.EQUITY_RATIO),
+                           shocks=(SHOCK_2013, SHOCK_2018)) -> dict:
+    """Placebo permutation test of the ratchet: is France's between-shock difference extreme.
+
+    The asymmetry claim rests on the gap between the 2013-shock and the 2018-shock coefficients. We
+    test it directly, with the paper's own placebo logic applied to that gap: each of the six
+    countries is treated in turn against the other five, the difference beta_2013 - beta_2018 is
+    formed, and France's difference is ranked among the six. The placebo p is that rank over six.
+    Size-only, built on the full-window panels so the samples match the ratchet table. ``shocks``
+    overrides the two windows, used to re-run on the symmetric equal-length windows as a robustness.
+    """
+    shock13, shock18 = shocks
+    b13 = _build_shock(long_panel, shock13)
+    b18 = _build_shock(long_panel, shock18)
+    countries = sorted(set(b13[S.COUNTRY]) & set(b18[S.COUNTRY]))
+
+    def coef(built: pd.DataFrame, reform: int, c: str, outcome: str) -> float:
+        f = built.dropna(subset=[outcome, S.SIZE]).copy()
+        f[S.TREAT_POST] = ((f[S.COUNTRY] == c) & (f[S.YEAR] >= reform)).astype(int)
+        beta, _ = did._fit_core(f, outcome, [S.TREAT_POST, S.SIZE], S.COUNTRY)
+        return float(beta[0])
+
+    out = {}
+    for o in outcomes:
+        b2013 = {c: coef(b13, shock13.reform_year, c, o) for c in countries}
+        b2018 = {c: coef(b18, shock18.reform_year, c, o) for c in countries}
+        diffs = {c: b2013[c] - b2018[c] for c in countries}
+        d_fr = diffs["FR"]
+        rank = sum(abs(v) >= abs(d_fr) for v in diffs.values())
+        out[o] = {"b2013": b2013["FR"], "b2018": b2018["FR"], "diff": d_fr,
+                  "placebo_p": rank / len(countries), "n_countries": len(countries)}
+    return out
+
+
+def sq1_distribution(broad: pd.DataFrame) -> dict:
+    """Smoothed |semi-elasticity| of household dividends to the 2013 and 2018 shocks, six comparables.
+
+    For each country the change is the log dividend in the reform year minus the mean log dividend
+    over the three preceding years; the semi-elasticity is France minus the mean of the other five.
+    Returns the absolute values, the sign being negative for the 2013 hike and positive for the 2018
+    cut.
+    """
+    d = broad.copy()
+    d["logd"] = np.log(d["d42"])
+
+    def logd(country: str, year: int) -> float:
+        v = d.loc[(d[S.COUNTRY] == country) & (d[S.YEAR] == year), "logd"]
+        return float(v.iloc[0]) if len(v) and pd.notna(v.iloc[0]) else np.nan
+
+    def shock(reform: int) -> float:
+        chg = {c: logd(c, reform) - np.nanmean([logd(c, y) for y in range(reform - 3, reform)])
+               for c in SQ1_COMPARABLES}
+        chg = {c: v for c, v in chg.items() if np.isfinite(v)}
+        return chg["FR"] - float(np.mean([v for c, v in chg.items() if c != "FR"]))
+
+    return {"2013": abs(shock(2013)), "2018": abs(shock(2018))}
+
+
+def sq1_gross_flow(broad: pd.DataFrame) -> dict:
+    """Same semi-elasticity on the raw year-on-year flow instead of the smoothed base, six comparables.
+
+    A robustness on the reference-window choice: the change is the log dividend in the reform year
+    minus the previous year alone, France against the mean of the five comparables. Returns absolute
+    values; the ratio to the smoothed pair confirms the asymmetry does not hinge on the base.
+    """
+    d = broad.copy()
+    d["logd"] = np.log(d["d42"])
+
+    def logd(country: str, year: int) -> float:
+        v = d.loc[(d[S.COUNTRY] == country) & (d[S.YEAR] == year), "logd"]
+        return float(v.iloc[0]) if len(v) and pd.notna(v.iloc[0]) else np.nan
+
+    def shock(reform: int) -> float:
+        chg = {c: logd(c, reform) - logd(c, reform - 1) for c in SQ1_COMPARABLES}
+        chg = {c: v for c, v in chg.items() if np.isfinite(v)}
+        return chg["FR"] - float(np.mean([v for c, v in chg.items() if c != "FR"]))
+
+    return {"2013": abs(shock(2013)), "2018": abs(shock(2018))}
 
 
 def retention_level_path(long_panel: pd.DataFrame, study: Study = RETENTION_LONG) -> pd.DataFrame:
@@ -120,8 +207,14 @@ def robustness_2013(long_panel: pd.DataFrame) -> dict:
     with_cycle = did.fit(built, S.RESERVES_RATIO, SHOCK_2013, controls=[S.SIZE, "ace", "unemp"]).coef
     no_subsidy = built[built[S.COUNTRY].isin(("FR", "DE", "NL"))]
     subset = did.fit(no_subsidy, S.RESERVES_RATIO, SHOCK_2013, controls=BASELINE).coef
+    # The 2018-shock retention under the same allowance control: the denominator of the asymmetry
+    # ratio reported in the Section 6 footnote (with_ace / with_ace_2018).
+    b18 = _build_shock(long_panel, SHOCK_2018)
+    b18 = b18.assign(**{"ace": [int(ace_active(c, y))
+                                for c, y in zip(b18[S.COUNTRY], b18[S.YEAR])]})
+    with_ace_2018 = did.fit(b18, S.RESERVES_RATIO, SHOCK_2018, controls=[S.SIZE, "ace"]).coef
     return {"baseline": base, "with_ace": with_ace, "with_cycle": with_cycle,
-            "no_subsidy_controls": subset}
+            "no_subsidy_controls": subset, "with_ace_2018": with_ace_2018}
 
 
 # --- Shareholder heterogeneity (Section 6 robustness): the owner-manager channel -----------------
@@ -158,6 +251,19 @@ def heterogeneity_shareholder(real_panel: pd.DataFrame, flags: pd.DataFrame,
         out[g] = {o: _did_cell(frame.copy(), o, study)
                   for o in (S.DLOG_CAPITAL, S.CAP_INCREASE)}
     return out
+
+
+def leave_one_out_h1(built: pd.DataFrame, drop=("IT", "BE")) -> dict:
+    """H1 capital null re-estimated with the rate-change controls removed from the pool.
+
+    Italy raised its dividend rate in 2014 and Belgium in 2017, within the estimation window, so they
+    are partly contaminated controls. Dropping them checks that the headline null does not rest on
+    them. Size-only, on the already-built main panel.
+    """
+    sub = built[~built[S.COUNTRY].isin(drop)].copy()
+    return {"dropped": list(drop),
+            S.DLOG_CAPITAL: _did_cell(sub, S.DLOG_CAPITAL, STUDY),
+            S.CAP_INCREASE: _did_cell(sub, S.CAP_INCREASE, STUDY)}
 
 
 # --- Covid tail and the cut at 2019 (Section 6) --------------------------------------------------
@@ -207,3 +313,24 @@ def decoupling_2021(div: pd.DataFrame, surplus: pd.DataFrame, gdp: pd.DataFrame,
         fr, comp = fr_and_comp(frame, value)
         out[name] = {"fr": fr, "comp": comp, "gap": fr - comp}
     return out
+
+
+def decoupling_series(div: pd.DataFrame, surplus: pd.DataFrame, gdp: pd.DataFrame,
+                      study: Study = STUDY) -> pd.DataFrame:
+    """France and the comparable-country mean, indexed to 2017, over 2017 to 2022, for household
+    dividends, corporate surplus, and GDP volume. The input to the decoupling figure: the France
+    lines plus the comparable mean that makes the gap visible, both regenerated from the series.
+    """
+    comp = [c for c in study.controls]
+
+    def pair(frame: pd.DataFrame, value: str) -> tuple[pd.Series, pd.Series]:
+        idx = frame.pivot(index=S.YEAR, columns=S.COUNTRY, values=value).apply(_index_2017)
+        return idx["FR"], idx[comp].mean(axis=1)
+
+    fr_div, comp_div = pair(div, "dividends_received")
+    fr_pro, comp_pro = pair(surplus, "value")
+    fr_pib, comp_pib = pair(gdp, "value")
+    frame = pd.DataFrame({"dividendes": fr_div, "profit": fr_pro, "pib": fr_pib,
+                          "dividendes_comp": comp_div, "profit_comp": comp_pro,
+                          "pib_comp": comp_pib})
+    return frame.loc[2017:2022].round(1)
