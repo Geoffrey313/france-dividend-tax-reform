@@ -3,19 +3,20 @@
 The 2018 French single flat tax, firm capital, and household distribution, in a cross-country
 difference-in-differences design.
 
-**Authors.** Withheld for double-blind review.
+**Authors.** Geoffrey Ducournau and Jalal Qanas. October 2026 manuscript.
 
 ## Abstract
 
-The study compares France with Germany, Italy, Spain, Belgium, and the Netherlands around the 2012--2013
-tax package and the 2018 single flat tax. It combines 2,636,675 Orbis observations for 272,906 Large and
-Very Large private firms, 38,937 Compustat Global observations for 3,115 listed firms, Eurostat national
-accounts, and WID.world distributional series. After 2018, all three private-firm capital-entry margins
-decline relatively, with clustered Student statistics between -1.95 and -3.50. The full 2018--2025
-window shows no fall in tangible investment; the 2018--2019 pre-Covid window instead shows a 2.85-point
-increase. Household dividends rise by 32% in 2018. Comparing the two tax packages gives economically
-marked descriptive evidence of payout asymmetry, but the firm-accounting margins do not jointly confirm
-the predicted ratchet. The distributional extension is descriptive rather than causal.
+Does a dividend-tax cut provide firms with new financing and change their investment? The paper studies
+France's 2018 `prélèvement forfaitaire unique` (PFU) by linking French firms' accounts to household
+dividend receipts and the income distribution. Household dividend receipts rise by 32% in the reform
+year. This payout is not matched by observable new financing: the estimated decline in private firms'
+subscribed capital is about 26% of its average annual growth, and the decline in listed firms' external
+financing is about 83% of its mean. Private firms' tangible assets rise in the short run, but rejected
+pre-trends prevent attributing that increase to the PFU. The relative increase in the post-tax income
+share of the top 1% is about 8% of its 2017 French share. Placebo ranks and pre-trends require a
+descriptive reading. Comparison with the 2013 tax increase reveals asymmetric responses in payouts and
+retained resources without establishing causality.
 
 ## Research questions
 
@@ -31,19 +32,36 @@ leaves more readily than it returns?
 - **H3.** The response to taxation is asymmetric: the 2018 cut undoes only a fraction of the
   reallocation caused by the 2013 hike, so capital leaves more readily than it returns.
 
+## Empirical design
+
+France is compared with Germany, Italy, Spain, Belgium, and the Netherlands. Firm-level regressions
+absorb firm and stable two-digit-industry-by-year fixed effects and include lagged size, firm age, and
+leverage whenever leverage is not mechanically redundant with the dependent variable. Required
+outcomes and controls are jointly complete within each final common sample; no missing value is filled.
+
+The 2013 comparison uses 2008--2016 with 2012 as the reference year. For the 2018 reform, the main
+window is 2013--2019 with 2017 as the reference year, so the principal estimates precede the pandemic.
+The 2013--2025 window reports horizons `t+2` through `t+7` as a pandemic-inclusive sensitivity. A common
+Covid indicator is absorbed by industry-by-year effects, while France-by-Covid interactions overlap
+the post-treatment coefficients. The extended window therefore cannot distinguish a delayed PFU
+response from France-specific pandemic shocks. Results for 2025 are provisional because recent Orbis
+coverage remains incomplete.
+
 ## Main results
 
-- **H1, directional support.** Private-firm subscribed-capital growth, capital increases, and the
-  equity ratio all decline relatively after 2018. Clustered Student statistics are the primary
-  inference; the six-country permutation ranks are complementary diagnostics.
-- **H2, window-dependent investment response.** The full 2018--2025 window shows no tangible-asset
-  decline. The 2018--2019 window instead yields a +2.85-point tangible-asset response (t = 13.06),
-  while total assets increase by 1.23 points.
+- **H1, directional support.** Private subscribed-capital growth falls by 0.926 percentage point,
+  about 26% of its estimation-sample mean. Listed external financing falls by 5.503 points, about
+  83% of its mean. Rejected pre-trends prevent a clean causal interpretation.
+- **H2, window-dependent investment response.** The 2018--2019 window yields a +2.852-point
+  tangible-asset response and a +1.232-point total-asset response among private firms. These movements
+  are not reproduced uniformly by listed-firm measures or by the pandemic-inclusive window.
 - **Destination.** Household dividends received rise 32% in the reform year. The evidence points to
   higher payouts without a uniform increase in firm financing or investment.
 - **H3, differentiated evidence.** The aggregate payout response after 2018 is about 45% of the
   opposite-signed response after 2013. This is economically meaningful descriptive asymmetry, not a
   direct equality test. Firm reserves and equity do not jointly confirm the predicted ratchet.
+- **Distribution.** The post-2018 increase in the top 1%'s post-tax income share is 0.554 percentage
+  point, about 8.3% of its 2017 French share. This extension remains descriptive.
 
 ## Repository layout
 
@@ -55,7 +73,6 @@ src/analysis/  estimation drivers (DiD + synthetic-control and permutation place
 src/figures/   figure and table emitters
 reproduce.py   deterministic end-to-end entry point
 data/          final public inputs and final firm estimation samples; see data/README.md
-protocol/      frozen analysis plan
 ```
 
 ## Reproduction
@@ -108,8 +125,9 @@ the same total weight; run it with `python run_firm_growth_square_robustness.py`
 
 The run is deterministic and has three live stages: a synthetic recovery self-test; public Eurostat
 and WID series; and the final Orbis Large/Very Large plus Compustat estimation samples. The historical
-broad-Orbis pipeline is retired. Public-series, distributional, and firm-accounting headline numbers
-are all checked against both manuscript languages. The WID analysis remains explicitly descriptive;
+broad-Orbis pipeline is retired. When the optional local manuscript sources are present, public-series,
+distributional, and firm-accounting headline numbers are checked against both manuscript languages.
+The WID analysis remains explicitly descriptive;
 the firm hypotheses use the common controlled specification with firm and industry-by-year fixed
 effects. The exact input and output hashes and dependency versions are written to
 `results/reproduction_manifest.json`. The replication package starts from the checksummed final
