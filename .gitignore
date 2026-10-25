@@ -30,7 +30,6 @@ data_download/
 # Credentials / secrets
 .env
 .env.*
-!.env.example
 *.key
 *.pem
 .netrc
@@ -116,8 +115,12 @@ run_firm_growth_listed_controls.py
 src/analysis/firm_growth.py
 src/analysis/firm_growth_listed_controls.py
 src/data/harmonized_firm_panels.py
-tests/test_firm_growth.py
-tests/test_harmonized_firm_panels.py
+
+# Local validation suite; not part of the paper replication release.
+tests/
+
+# Internal research protocol; not part of the empirical replication release.
+protocol/
 
 # Superseded deflator vintages; the empirical code uses only the 2005--2025 file.
 data/gdp_deflator_2005_2022.csv
